@@ -1,66 +1,106 @@
 body {
     margin: 0px;
     padding: 0px;
+    font-family: Arial, sans-serif;
 }
 
 header {
     width: 100%;
     background-color: #005766;
     height: 200px;
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 header>div {
-    float: left;
+    margin-right: 20px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 0;
 }
 
 header h1,
 header p {
     color: white;
-    text-align: center;
-    margin: 30px;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+header h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+header p {
+    font-size: 16px;
+    line-height: 1.2;
+    margin-top: 20px;
 }
 
 header img {
     height: 150px;
-    padding: 20px;
+    width: 150px;
+    background-color: #ccc;
+    object-fit: cover;
 }
 
 nav {
     clear: both;
     background-color: #3db7cc;
-    height: 35px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
 }
 
 nav a {
-    width: 170px;
-    height: 35px;
-    padding: 5px;
-    display: inline-block;
+    color: white;
     text-decoration: none;
-    text-align: center;
+    padding: 10px 15px;
+    margin-right: 10px;
+}
+
+nav a:visited {
+    color: blue;
 }
 
 section {
-    margin: 10px;
-    padding: 10px;
+    margin: 20px;
+    padding: 20px;
     width: 45%;
-    height: 200px;
     float: left;
     border: 1px solid #3db7cc;
     box-sizing: border-box;
+    min-height: 200px;
 }
 
 section p,
-section u1,
-section o1 {
-    padding-left: 50px;
+section ul,
+section ol {
+    padding-left: 20px;
+    line-height: 1.6;
+}
+
+#p1 {
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-left: 40px;
 }
 
 h2 {
-    margin: 5px;
-    padding: 10px;
+    margin: 0 0 15px 0;
+    padding: 15px;
     background-color: #005766;
-    color: rgb(255, 255, 255);
+    color: white;
+    border-radius: 5px;
 }
 
 section a {
@@ -69,11 +109,21 @@ section a {
     padding: 5px;
 }
 
+.course-link {
+    color: blue;
+    text-decoration: underline;
+}
+
+.course-link:hover {
+    color: #7C3AED;
+}
+
 footer {
     clear: both;
-    height: 50px;
     background-color: #eaeaea;
     color: #5d5d5d;
     padding: 20px;
     font-size: 12px;
+    text-align: left;
+    border-top: 1px solid #ccc;
 }
