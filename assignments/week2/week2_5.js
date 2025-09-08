@@ -1,6 +1,6 @@
 // Random Number Game JavaScript
 
-// generateRandomNumber 함수 구현 (PDF 요구사항)
+// generateRandomNumber 함수 구현
 function generateRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
