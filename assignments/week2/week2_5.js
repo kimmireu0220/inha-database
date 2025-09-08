@@ -39,9 +39,9 @@ guessForm.addEventListener('submit', function(e) {
     
     // 결과 비교 및 출력
     if (userGuess === randomNumber) {
-        resultSpan.textContent = `You choose: ${userGuess}, the machine choose: ${randomNumber}. You win!`;
+        resultSpan.innerHTML = `You choose: ${userGuess}, the machine choose: ${randomNumber}.<br><strong>You win!</strong>`;
     } else {
-        resultSpan.textContent = `You choose: ${userGuess}, the machine choose: ${randomNumber}. You lost!`;
+        resultSpan.innerHTML = `You choose: ${userGuess}, the machine choose: ${randomNumber}.<br><strong>You lost!</strong>`;
     }
 });
 
