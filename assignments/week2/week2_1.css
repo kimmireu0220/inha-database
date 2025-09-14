@@ -89,6 +89,18 @@ section ol {
     line-height: 1.6;
 }
 
+.material-icons {
+    font-size: 18px !important;
+    vertical-align: middle;
+    margin-right: 8px;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    overflow: hidden;
+}
+
 #p1 {
     margin-top: 10px;
     padding-top: 10px;
