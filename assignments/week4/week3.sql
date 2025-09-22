@@ -86,3 +86,28 @@ INSERT INTO works_with VALUES(105, 404, 33000);
 INSERT INTO works_with VALUES(107, 405, 26000);
 INSERT INTO works_with VALUES(102, 406, 15000);
 INSERT INTO works_with VALUES(105, 406, 130000);
+
+-- Week4 Assignment Queries
+-- 1. Corporate branch 사원들의 급여 정보 (10% 증가)
+SELECT e.first_name, e.last_name, e.salary, ROUND(e.salary * 1.1, 2) as increased_salary FROM employee e JOIN branch b ON e.branch_id = b.branch_id WHERE b.branch_name = 'Corporate';
+
+-- 2. 급여 60,000-80,000 사이의 남자 사원들
+SELECT first_name, last_name, salary FROM employee WHERE salary BETWEEN 60000 AND 80000 AND sex = 'M';
+
+-- 3. branch_id 내림차순, 급여 오름차순으로 정렬된 모든 사원
+SELECT first_name, last_name, branch_id, salary FROM employee ORDER BY branch_id DESC, salary ASC;
+
+-- 4. FedEx와 일하는 급여 60,000 이상 사원들
+SELECT e.first_name, e.last_name, w.total_sales FROM employee e JOIN works_with w ON e.emp_id = w.emp_id JOIN client c ON w.client_id = c.client_id WHERE c.client_name = 'FedEx' AND e.salary >= 60000;
+
+-- 5. 급여 통계 (합계, 최고, 최저, 평균)
+SELECT SUM(salary) as total_salary, MAX(salary) as max_salary, MIN(salary) as min_salary, ROUND(AVG(salary), 4) as avg_salary FROM employee;
+
+-- 6. 총 사원수
+SELECT COUNT(*) as total_employees FROM employee;
+
+-- 7. 각 branch별 근무하는 사원의 수
+SELECT b.branch_name, COUNT(e.emp_id) as employee_count FROM branch b LEFT JOIN employee e ON b.branch_id = e.branch_id GROUP BY b.branch_id, b.branch_name ORDER BY b.branch_id;
+
+-- Student Information
+SELECT 'Student ID:12201560, Name:Mireu Kim' as student_info;
