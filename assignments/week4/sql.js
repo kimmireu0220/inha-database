@@ -89,7 +89,6 @@ const sql = {
         return results;
     },
 
-    // 기존 함수 (호환성을 위해 유지)
     getEmployee: async()=>{
         const results = await promisePool.query(`
         select * from employee
