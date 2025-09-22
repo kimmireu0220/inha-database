@@ -1,0 +1,198 @@
+데이터베이스설계
+(ICE4016)
+실습 4주차
+Node.js
+
+Prof. Wonik Choi
+
+MySQL Workbench
+
+Password 입력하여 로그인
+선택
+
+2
+
+MySQL Workbench
+
+선택
+Edit Schema
+
+3
+
+MySQL Workbench
+
+더블 클릭하여 ER
+Diagram 생성
+
+테이블 생성 및 cardinality 설정
+
+4
+
+MySQL Workbench
+
+클릭 후 옆의 도면 아무 곳에 클릭
+
+더블 클릭
+Table name, column, null 등 설정
+
+5
+
+MySQL Workbench
+
+IP, Port, username 확인 후
+next 클릭
+다이어그램을 실제 DB에 반영
+
+6
+
+MySQL Workbench
+
+Password 입력 후 next
+
+옵션 선택(실습에서는 사용하지 않음)
+7
+
+MySQL Workbench
+
+Password 입력하면 자동으로 처리함
+
+DB 및 테이블 생성을 위한 script 생성됨
+8
+
+MySQL Workbench
+데이터베이스 지정
+테이블 정보 확인
+
+테이블 정보 확인
+
+데이터베이스 생성 확인
+9
+
+실습 환경 구축
+ㅇWindows 10~
+- NVM 및 Node 설치 오류
+• 사용자 계정 이름이 한글이 경우 발생
+➢ 설치 경로 변경하여 해결
+
+• https://github.com/coreybutler/nvm-windows/releases
+• 1.1.11 (Latest) 하단의 nvm-setup.zip 파일 다운받아서 설치
+• Accept(next) -> next -> next -> install
+• 설치 후 windows terminal에서 nvm 버전 확인
+➢ nvm version
+
+• Node 설치 및 사용
+➢ nvm install 16.10.0
+➢ nvm use 16.10.0
+➢ node -v
+
+10
+
+서버 구축
+ㅇ프로젝트 생성 및 환경 세팅
+- npm init 명령어 실행
+
+Github repository로 이동
+week2_2 디렉토리 생성 후 이동
+프로젝트 설명 작성
+나머지 enter
+
+yes 작성 후 enter
+
+11
+
+서버 구축
+ㅇPackage.json
+- 의존중인 패키지들의 버전을 기록 및 관리
+• 프로젝트와 관련된 메타데이터를 기록하는 파일
+
+ㅇExpress
+- Node.js의 핵심 모듈인 http와 Connect 컴포넌트를 기반으로 한 빠르고 간편한 웹 프레임워크
+• Node.js를 통해 다양한 자바스크립트 애플리케이션을 실행
+• 웹서버와 같이 확장성 있는 네트워크 프로그램을 제작하기 위해 만들어짐
+
+ㅇBabel
+- 최신 JS 문법을 모든 브라우저에서 사용할 수 있는 형태로 변환할 수 있는 transcomplier
+
+ㅇNodemon
+- 웹개발 편의성을 높이기 위한 스크립트 모니터링 유틸리티
+• 어떤 파일이라도 수정될 경우, 이를 반영하여 자동으로 서버를 재시작
+12
+
+서버 구축
+ㅇ프로젝트 생성 및 환경 세팅
+- 환경 세팅을 위한 모듈 설치
+
+대소문자 주의!!
+• npm install express mysql2 body-parser nodemon, morgan
+• npm install @babel/node @babel/core @babel/preset-env
+
+13
+
+서버 구축
+ㅇ프로젝트 생성 및 환경 세팅
+- package.json 파일 수정
+• "scripts" 부분 아래 구문 추가
+• "start": "nodemon --exec babel-node index.js"
+➢ babel-node: JS 최신 문법 적용
+➢ nodemon: 변경사항 탐지 및 자동 재시작
+
+14
+
+서버 구축
+ㅇ프로젝트 생성 및 환경 세팅
+- week2_2 폴더에 파일 생성
+• babel.config.json, index.html, index.js 파일 생성
+• 각각의 파일에 아래의 내용 작성
+
+15
+
+서버 구축
+ㅇ프로젝트 생성 및 환경 세팅
+- 서버 실행 확인
+• npm run start
+
+16
+
+서버 구축
+ㅇ프로젝트 생성 및 환경 세팅
+- 서버 실행 확인
+• http://localhost:3000/ 또는 http://127.0.0.1:3000/
+
+17
+
+MySQL 연동
+ㅇExpress-Mysql 연동
+- week2_2 Root 폴더에 파일 생성
+• sql.js 파일 생성
+• index.js 파일 내용 수정
+
+Mysql pw
+
+18
+
+MySQL 연동
+ㅇExpress-Mysql 연동
+- 결과 확인
+
+19
+
+실습 4주차 실습
+ㅇ‘Corporate’ branch에 해당하는 모든 사원의 이름, 기존 급여, 10% 증가된 급여를
+출력하라.
+ㅇ급여가 60,000에서 80,000 사이에 있는 모든 남자 사원의 이름, 급여를 출력하라.
+ㅇ모든 사원을 1. branch_id(내림차순) 2. 급여(오름차순)으로 정렬하고, 이름,
+branch_id, 급여를 출력하라.
+ㅇ‘FedEx’와 일하는 급여 60,000 이상의 모든 사원의 이름, total_sales를 출력하라.
+ㅇ사원의 급여의 합, 최고 급여, 최저 급여, 평균 급여를 출력하라.
+ㅇ회사의 총 사원수를 제시하라.
+ㅇ각 branch별 근무하는 사원의 수를 검색하여 branch 이름과 소속 사원수를 출력하
+라
+
+20
+
+실습 4주차 실습
+Week3.sql 실행
+
+21
+
+
