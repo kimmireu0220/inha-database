@@ -1,28 +1,28 @@
-<h1>Insert Student</h1>
-<form name="student" method="post" action="/">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Apply</title>
+</head>
+<body>
+    <h1>Query Apply</h1>
+
+    <form name="employee" method="post" action="/">
+      <div>
+        <label for="Query">Query</label>
+        <input id="Query" name="Query" type="text" required placeholder="Query" />
+      </div>
+      <div>
+        <input type="submit" value="Apply" />
+      </div>
+    </form>
+
     <div>
-        <label for="id">Id</label>
-        <input id="id" name="id" type="text" required placeholder="Id" />
+      {{#each data}}
+        {{this}}<br>
+      {{/each}}
     </div>
-    <div>
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" required placeholder="Name" />
-    </div>
-    <div>
-        <label for="email">E-mail</label>
-        <input id="email" name="email" type="text" placeholder="email" />
-    </div>
-    <div>
-        <label for="phoneNumber">Phone Number</label>
-        <input id="phoneNumber" name="phoneNumber" type="text" 
-        required placeholder="000-0000-0000" />
-    </div>
-    <div>
-        <label for="major">Major</label>
-        <input id="major" name="major" type="text" required placeholder="major" />
-    </div>
-    <div>
-        <input type="submit" value="insert" />
-    </div>
-</form>
+</body>
+</html>
 

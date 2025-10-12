@@ -1,24 +1,33 @@
 import express from 'express';
-import { insertSql } from '../database/sql';
+import { ApplyQuery } from '../database/sql';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('home', { data: " " });
-})
+// GET: 초기 페이지
+router.get('/', (_req, res) => {
+  res.render('home', { data: [] });
+});
 
-router.post('/', (req, res) => {
-    const vars = req.body;
+// POST: 쿼리 실행
+router.post('/', async (req, res) => {
+  const vars = req.body;
+  const data = { Query: vars.Query };
+  let all_data = [];
 
-    const data = {
-        Id: vars.id,
-        Name: vars.name,
-        Email: vars.email,
-        PhoneNumber: vars.phoneNumber,
-        Major: vars.major,
-    };
-    insertSql.setStudent(data);
-})
+  try {
+    const result = await ApplyQuery.applyquery(data.Query);
+    all_data.push('Query: ');
+    all_data.push(data.Query);
+    all_data.push('Result:');
+    for (let i = 0; i < result.length; i++) {
+      all_data.push(JSON.stringify(result[i]));
+    }
+  } catch (error) {
+    all_data.push(`${data.Query} is not a query, or there is an error.`);
+  }
+
+  res.render('home', { data: all_data });
+});
 
 module.exports = router;
 
