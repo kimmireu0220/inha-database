@@ -1,0 +1,20 @@
+./DB_ICE4016_2024_7_mysql_express_ kor.pdf
+./Week7_과제보고서_초안.md
+./babel.config.json
+./database/sql.js
+./package-lock.json
+./package.json
+./project_structure.txt
+./routes/home.js
+./routes/select.js
+./routes/update.js
+./screenshots/week7_final_kimmireu_insert_form.png
+./screenshots/week7_final_with_kimmireu_select.png
+./screenshots/week7_final_with_kimmireu_update.png
+./src/index.js
+./views/home.hbs
+./views/layout.hbs
+./views/select.hbs
+./views/updateDepartment.hbs
+./views/updateStudent.hbs
+./week7_output.txt
