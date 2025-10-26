@@ -1,0 +1,68 @@
+데이터베이스설계
+(ICE4016)
+실습 7주차
+MySQL Express 연동
+
+Prof. Wonik Choi
+
+Week 7 practice goal
+localhost:3000/
+(데이터 삽입 페이지)
+
+localhost:3000/select
+(데이터 조회 페이지)
+
+2
+
+Week 7 practice goal
+localhost:3000/update/student
+(학생 데이터 수정 페이지)
+
+3
+
+Week 7 practice
+ㅇ프로젝트 생성 및 환경 세팅
+
+https://github.com/leesw9501/Database/tree/main/week6
+
+- 환경 세팅을 위한 모듈 설치
+• npm init
+• npm install express mysql2 body-parser nodemon morgan dotenv
+• npm install @babel/node @babel/core @babel/preset-env
+• npm link hbs
+
+4
+
+Week 7 practice
+ㅇ프로젝트 생성 및 환경 세팅
+
+5
+
+src/index.js
+
+6
+
+routes/home.js & views/home.hbs
+
+routes/select.js & views/select.hbs
+
+routes/update.js & views/ updateStudent.hbs
+
+database/sql.js
+
+10
+
+views/layout.hbs
+
+11
+
+Week 7 Assignment
+ㅇSTEP 1 : localhost:3000/select 페이지에 class table 추가
+ㅇSTEP 2 : localhost:3000/update/department 페이지 만들기
+ㅇ두 개 스탭을 진행하고, 보고서 작성
+- 기능 동작을 확인할 수 있는 사진들을 포함 할 것
+- 코드 제출 필요 없음
+
+12
+
+
