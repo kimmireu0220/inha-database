@@ -1,9 +1,13 @@
 import express from 'express';
 import logger from 'morgan';
 import path from 'path';
-import homeRouter from '../routes/home';
-import selectRouter from '../routes/select';
-import updateRouter from '../routes/update';
+import { fileURLToPath } from 'url';
+import homeRouter from '../routes/home.js';
+import selectRouter from '../routes/select.js';
+import updateRouter from '../routes/update.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PORT = 3000;
 const app = express();

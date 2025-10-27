@@ -1,5 +1,5 @@
 import express from 'express';
-import { insertSql } from '../database/sql';
+import { insertSql } from '../database/sql.js';
 
 const router = express.Router();
 
@@ -23,4 +23,4 @@ router.post('/', async (req, res) => {
     res.redirect('/');
 })
 
-module.exports = router;
+export default router;

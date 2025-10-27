@@ -1,12 +1,13 @@
 import mysql from 'mysql2';
 
-require("dotenv").config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const pool = mysql.createPool({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'c3409711',
+    password: 'c3409711!',
     database: 'InhaDB',
     charset: 'utf8mb4',
     collation: 'utf8mb4_unicode_ci',
@@ -52,7 +53,7 @@ export const selectSql = {
 // insert query
 export const insertSql = {
     setStudent: async (data) => {
-        const sql = `insert into student (Id, Name, Email, Phone_number, Major) values (
+        const sql = `insert into Student (Id, Name, Email, PhoneNumber, Major) values (
             ${data.Id}, "${data.Name}", "${data.Email}", 
             "${data.PhoneNumber}", "${data.Major}"
         )`

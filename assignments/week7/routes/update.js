@@ -1,5 +1,5 @@
 import express from 'express';
-import { selectSql, updateSql } from '../database/sql';
+import { selectSql, updateSql } from '../database/sql.js';
 
 const router = express.Router();
 
@@ -48,4 +48,4 @@ router.post('/department', async (req, res) => {
     res.redirect('/update/department');
 })
 
-module.exports = router;
+export default router;
