@@ -1,0 +1,236 @@
+데이터베이스설계
+(ICE4016)
+실습 9주차
+SQL
+
+Prof. Wonik Choi
+
+SQL (Structured Query Language)
+ㅇSELECT : 데이터베이스에서 데이터를 검색할 때 사용되며, 데이터를 조회하는 데
+사용됨
+ㅇINSERT : 데이터베이스 테이블에 새로운 데이터를 추가하는 데 사용됨
+
+ㅇUPDATE : 데이터베이스 테이블의 기존 데이터를 수정하는 데 사용됨
+ㅇDELETE : 데이터베이스 테이블에서 데이터를 삭제하는 데 사용됨
+
+ㅇCREATE : 데이터베이스 객체(테이블, 뷰, 인덱스 등)를 생성하는 데 사용됨
+ㅇALTER : 데이터베이스 객체의 구조를 수정하는 데 사용됨
+ㅇDROP : 데이터베이스 객체(테이블, 뷰, 인덱스 등)를 삭제하는 데 사용됨
+
+2
+
+SQL (Structured Query Language)
+ㅇSELECT first_name, last_name FROM employee WHERE salary >= 50000;
+ㅇSELECT name, salary FROM employee ORDER BY salary ASC/DESC;
+
+ㅇINSERT INTO employee (first_name, last_name, salary) VALUES ('John', 'Doe',
+60000);
+ㅇUPDATE employee SET salary = 65000 WHERE first_name = 'John' AND
+last_name = 'Doe’;
+ㅇDELETE FROM employee WHERE first_name = 'John' AND last_name IN (Doe,
+Lee, Kim);
+3
+
+SQL (Structured Query Language)
+ㅇSELECT e.first_name, e.last_name, c.client_name
+FROM employee e
+JOIN works_with ww ON e.emp_id = ww.emp_id
+JOIN client c ON ww.client_id = c.client_id;
+
+ㅇSELECT *
+FROM employee
+WHERE birth_day BETWEEN '1990-01-01' AND '2000-12-31’;
+ㅇSELECT COUNT(*) AS total_customers FROM customer;
+ㅇSELECT department, AVG(salary) AS avg_salary FROM employees
+GROUP BY department HAVING AVG(salary)>30000;
+4
+
+COMPANY_Database_Schema.sql 실행
+경로확인
+
+Week9_company db 생성
+db 지정
+
+I-Class
+COMPANY_Database_Schema.sql
+
+Sql 파일 실행
+
+5
+
+COMPANY_Database
+
+6
+
+COMPANY_Database
+
+7
+
+SQL
+ㅇ모든 사원의 이름, 주소, 급여를 출력하라
+ㅇ회사의 총 사원수를 출력하라
+ㅇ3만 이상의 급여를 받는 사원들의 이름과 급여를 출력하라
+ㅇ3만 이상, 5만 이하의 급여를 받는 사람들의 이름과 급여를 출력하라
+ㅇHouston에서 진행중인 프로젝트의 이름과 번호를 출력하라
+ㅇ급여가 30,000달러에서 40,000달러 사이에 있는 5번 부서의 모든 사원의 이름과 급여를
+출력하라
+ㅇ모든 사원을 1. 급여(높은 순서) 2. 생년월일(나이가 많은 순서)을 출력하라
+ㅇ부양가족이 있는 사원들의 이름(Fname, Lname)과 부양가족의 이름을 출력하라
+ㅇ프로젝트 번호 1,2,3에서 일하는 사원의 주민등록번호(Essn)를 출력하라
+ㅇ사원의 급여의 합, 최고 급여, 최저 급여, 평균 급여를 출력하라
+8
+
+SQL
+ㅇ‘Newbenefits’ 프로젝트에 참여하는 모든 사원의 급여를 10% 올린 경우의 급여를 출력하
+라 (Fname, Lname, Increased_sal)
+ㅇ각 부서에서 근무하는 사원의 수를 출력하라 (부서이름과 소속 사원수를 출력)
+ㅇ각 부서에 대해서 부서이름, 부서에 소속된 사원의 수와 최고급여와 평균 급여를 출력하라
+
+ㅇ프로젝트에 대해서 프로젝트 번호, 프로젝트 이름, 그 프로젝트에서 근무하는 사원들의 이름
+을 출력하라
+ㅇ세 명 이상의 사원이 근무하는 프로젝트에 대해서 프로젝트 번호, 프로젝트 이름, 그 프로젝
+트에서 근무하는 사원들의 수를 출력하라
+
+ㅇ프로젝트에 대해서 프로젝트 번호, 프로젝트 이름, 5번 부서에 속하면서 프로젝트에서 근무
+하는 사원의 수를 출력하라
+ㅇ3명 이상의 사원이 근무하는 각 부서에 대해서 부서 번호와 40,000달러가 넘는 급여를 받는
+사원의 ssn 및 salary를 출력하라
+
+9
+
+SQL
+ㅇ ‘Newbenefits’ 프로젝트에 참여하는 모든 사원의 급여를 10% 올린 경우의 급여를 출력하라 (Fname, Lname, Increased_sal)
+-
+
+select Fname, Lname, Salary*1.1 as Increased_sal from employee e
+join works_on w on e.ssn=w.Essn
+join project p on w.Pno=p.Pnumber where p.Pname="Newbenefits";
+
+ㅇ 각 부서에서 근무하는 사원의 수를 검색하라 (부서이름과 소속 사원수를 출력)
+-
+
+select d.Dname, count(*) as e_count
+
+-
+
+from department d
+
+-
+
+join employee e on d.Dnumber=e.Dno
+
+-
+
+group by d.Dname;
+
+ㅇ 각 부서에 대해서 부서이름, 부서에 소속된 사원의 수와 최고급여와 평균 급여를 출력하라
+-
+
+select Dname, count(*) as count_employee, max(e.Salary) as max_salay, avg(e.Salary) as avg_salary
+
+-
+
+from department d
+
+-
+
+left join employee e on d.Dnumber = e.Dno
+
+-
+
+group by d.Dname;
+
+ㅇ 프로젝트에 대해서 프로젝트 번호, 프로젝트 이름, 그 프로젝트에서 근무하는 사원들의 이름을 출력하라
+-
+
+select p.Pnumber, p.Pname, e.Fname, e.Lname
+
+-
+
+from project p join works_on w on p.Pnumber=w.Pno
+
+-
+
+join employee e on w.Essn=e.Ssn;
+
+10
+
+SQL
+ㅇ 세 명 이상의 사원이 근무하는 프로젝트에 대해서 프로젝트 번호, 프로젝트 이름, 그 프로젝트에서 근무하는 사원들의 수를 출력하라
+-
+
+select p.Pnumber, p.Pname, count(e.Fname) as count_employee
+
+-
+
+from project p
+
+-
+
+join works_on w on p.Pnumber=w.Pno
+
+-
+
+join employee e on w.Essn=e.Ssn
+
+-
+
+group by p.Pname having count(e.Fname)>=3;
+
+ㅇ 프로젝트에 대해서 프로젝트 번호, 프로젝트 이름, 5번 부서에 속하면서 프로젝트에서 근무하는 사원의 수를 출력하라
+-
+
+select p.Pnumber, p.Pname, count(e.Fname) as count_employee
+
+-
+
+from project p join department d on p.Dnum=d.Dnumber
+
+-
+
+join employee e on d.Dnumber=e.Dno
+
+-
+
+where d.Dnumber=5
+
+-
+
+group by p.Pname;
+
+ㅇ 3명 이상의 사원이 근무하는 각 부서에 대해서 부서 번호와 40,000달러가 넘는 급여를 받는 사원의 ssn 및 salary를 출력하라
+-
+
+select d.Dnumber, e.Ssn, e.Salary
+
+-
+
+from department d
+
+-
+
+join employee e on d.Dnumber = e.Dno
+
+-
+
+where e.Salary >= 40000
+
+-
+
+and d.Dnumber in (
+
+-
+
+select Dno
+
+-
+
+from employee
+
+-
+
+group by Dno having count(*) >= 3);
+
+11
+
+
