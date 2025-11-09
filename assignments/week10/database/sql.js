@@ -25,6 +25,26 @@ export const selectSql = {
         const [result] = await promisePool.query(sql);
         return result;
     },
+    getBuilding: async () => {
+        const sql = `select * from building`;
+        const [result] = await promisePool.query(sql);
+        return result;
+    },
+    getRoom: async () => {
+        const sql = `select * from room`;
+        const [result] = await promisePool.query(sql);
+        return result;
+    },
+    getClass: async () => {
+        const sql = `select * from Class`;
+        const [result] = await promisePool.query(sql);
+        return result;
+    },
+    getStudentById: async (id) => {
+        const sql = `select * from Student where Id = ${id}`;
+        const [result] = await promisePool.query(sql);
+        return result[0];
+    },
     getStudentByLogin: async (id, phoneNumber) => {
         const sql = `select * from Student where Id = ${id} and PhoneNumber = "${phoneNumber}"`;
         const [result] = await promisePool.query(sql);

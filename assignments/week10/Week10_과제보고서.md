@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS Enrollment (
 `routes/login.js` 파일을 생성하여 로그인 기능을 구현했음.
 
 **핵심 코드**:
-```56:60:assignments/week7/database/sql.js
+```48:52:assignments/week10/database/sql.js
     getStudentByLogin: async (id, phoneNumber) => {
         const sql = `select * from Student where Id = ${id} and PhoneNumber = "${phoneNumber}"`;
         const [result] = await promisePool.query(sql);
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS Enrollment (
     },
 ```
 
-```10:39:assignments/week7/routes/login.js
+```10:39:assignments/week10/routes/login.js
 router.post('/', async (req, res) => {
     const vars = req.body;
     
@@ -116,8 +116,8 @@ router.post('/', async (req, res) => {
 5. 학생 정보가 없으면 경고 창을 띄우고 로그인 페이지로 다시 이동함.
 
 **구현 방식과 사고 과정**:
-- Week10의 기본 템플릿을 참고하되, Student 테이블 구조에 맞게 수정했음.
-- 기존 Week10은 user 테이블을 사용했지만, 본 과제에서는 Student 테이블의 Id와 PhoneNumber를 직접 사용했음.
+- Student 테이블 구조에 맞게 로그인 기능을 구현했음.
+- Student 테이블의 Id와 PhoneNumber를 사용하여 로그인 인증을 수행했음.
 - 세션을 사용하여 로그인 상태를 유지하고, 이후 페이지에서 권한을 체크할 수 있도록 설계했음.
 - 에러 처리를 위해 try-catch 블록을 사용하여 예외 상황을 처리했음.
 
@@ -140,7 +140,7 @@ router.post('/', async (req, res) => {
 `routes/select.js`를 수정하여 로그인한 학생의 정보만 조회하도록 변경했음.
 
 **핵심 코드**:
-```6:38:assignments/week7/routes/select.js
+```6:38:assignments/week10/routes/select.js
 router.get('/', async (req, res) => {
     // 권한 체크: 로그인하지 않은 경우 로그인 페이지로 리다이렉트
     if (!req.session.user || !req.session.user.checkLogin) {
@@ -194,7 +194,7 @@ router.get('/', async (req, res) => {
 `routes/delete.js` 파일을 생성하여 수강취소 기능을 구현했음.
 
 **핵심 코드**:
-```7:29:assignments/week7/routes/delete.js
+```30:52:assignments/week10/routes/delete.js
 router.get('/class', async (req, res) => {
     // 권한 체크: 학생으로 로그인한 경우에만 접근 가능
     if (!req.session.user || !req.session.user.checkLogin || req.session.user.role !== 'student') {
@@ -220,7 +220,7 @@ router.get('/class', async (req, res) => {
 });
 ```
 
-```32:54:assignments/week7/routes/delete.js
+```55:77:assignments/week10/routes/delete.js
 router.post('/class', async (req, res) => {
     // 권한 체크
     if (!req.session.user || !req.session.user.checkLogin || req.session.user.role !== 'student') {
@@ -260,7 +260,7 @@ router.post('/class', async (req, res) => {
    - 삭제 후 수강취소 페이지로 다시 리다이렉트하여 업데이트된 목록을 표시함.
 
 **구현 방식과 사고 과정**:
-- Week10의 delete 라우터를 참고하되, Enrollment 테이블 구조에 맞게 수정했음.
+- Enrollment 테이블 구조에 맞게 수강취소 기능을 구현했음.
 - 보안을 위해 GET과 POST 모두에서 권한을 체크하도록 구현했음.
 - 삭제 후 같은 페이지로 리다이렉트하여 사용자가 즉시 변경사항을 확인할 수 있도록 했음.
 - 에러 발생 시 사용자에게 알림을 제공하고 적절한 페이지로 이동하도록 처리했음.
@@ -268,10 +268,10 @@ router.post('/class', async (req, res) => {
 #### 2.3.2 데이터베이스 쿼리 함수 추가
 수강 수업 조회 및 삭제를 위한 쿼리 함수를 추가했음.
 
-```61:70:assignments/week7/database/sql.js
+```53:62:assignments/week10/database/sql.js
     getEnrolledClasses: async (studentId) => {
         const sql = `
-            select c.Id, c.Name, c.Professor, c.Number_of_participants
+            select c.Id, c.Name, c.Professor, c.Number_of_participants, c.Department_Id, c.Room_Id
             from Class c
             inner join Enrollment e on c.Id = e.Class_Id
             where e.Student_Id = ${studentId}
@@ -281,7 +281,7 @@ router.post('/class', async (req, res) => {
     },
 ```
 
-```111:117:assignments/week7/database/sql.js
+```72:77:assignments/week10/database/sql.js
 export const deleteSql = {
     deleteEnrollment: async (studentId, classId) => {
         const sql = `delete from Enrollment where Student_Id = ${studentId} and Class_Id = ${classId}`;
@@ -310,7 +310,7 @@ export const deleteSql = {
 #### 2.4.1 express-session 미들웨어 설정
 `src/index.js`에 세션 미들웨어를 추가했음.
 
-```21:27:assignments/week7/src/index.js
+```17:23:assignments/week10/src/index.js
 app.use(
     expressSession({
         secret: "my key",
@@ -329,17 +329,15 @@ app.use(
 #### 2.4.2 라우터 등록
 로그인 및 수강취소 라우터를 등록했음.
 
-```39:43:assignments/week7/src/index.js
+```30:32:assignments/week10/src/index.js
 app.use('/', loginRouter);
-app.use('/home', homeRouter);
 app.use('/select', selectRouter);
-app.use('/update', updateRouter);
 app.use('/delete', deleteRouter);
 ```
 
 **설계 사고 과정**:
 - `/` 경로를 loginRouter로 등록하여 기본 경로가 로그인 페이지가 되도록 했음.
-- 기존 `/` 경로에 있던 homeRouter는 `/home`으로 변경하여 기존 기능을 유지했음.
+- `/select` 경로는 selectRouter로 등록하여 학생 정보 조회 페이지로 연결했음.
 - `/delete/class` 경로는 deleteRouter에서 처리하도록 구현했음.
 
 ---
@@ -347,7 +345,7 @@ app.use('/delete', deleteRouter);
 ## 3. 실행 화면
 
 ### 3.1 로그인 페이지
-![로그인 페이지](../week7/screenshots/01_login_page.png)
+![로그인 페이지](screenshots/01_login_page.png)
 
 **설명**: 
 - 초기 접속 시 표시되는 로그인 페이지임.
@@ -355,7 +353,7 @@ app.use('/delete', deleteRouter);
 - "Login" 버튼을 클릭하여 로그인을 진행함.
 
 ### 3.2 학생 정보 조회 페이지 (로그인 성공 후)
-![학생 정보 조회 페이지](../week7/screenshots/02_student_info_page.png)
+![학생 정보 조회 페이지](screenshots/02_student_info_page.png)
 
 **설명**:
 - 로그인 성공 후 자동으로 이동하는 페이지임.
@@ -373,7 +371,7 @@ app.use('/delete', deleteRouter);
 - 각 수업마다 "수강취소" 버튼이 있어 클릭 시 해당 수업을 수강취소할 수 있음.
 
 ### 3.4 수강취소 페이지 (삭제 후)
-![수강취소 후 화면](../week7/screenshots/04_after_delete_class.png)
+![수강취소 후 화면](screenshots/04_after_delete_class.png)
 
 **설명**:
 - Database 수업의 "수강취소" 버튼을 클릭한 후의 화면임.

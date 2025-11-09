@@ -1,14 +1,97 @@
-<h1>{{ title }}</h1>
+<h1>{{ main_title }}</h1>
 
+<h2>{{ title1 }}</h2>
 <table>
   <tr>
-    <td>Dname</td>
-    <td>Dnumber</td>
+    <td>Id</td>
+    <td>Name</td>
   </tr>
-  {{#each department}}
+  {{#each Building}}
   <tr>
-    <td>{{Dname}}</td>
-    <td>{{Dnumber}}</td>
+    <td>{{Id}}</td>
+    <td>{{Name}}</td>
   </tr>
   {{/each}}
 </table>
+
+<h2>{{ title2 }}</h2>
+<table>
+  <tr>
+    <td>Id</td>
+    <td>Name</td>
+    <td>Email</td>
+    <td>Phone_number</td>
+  </tr>
+  {{#each Department}}
+  <tr>
+    <td>{{Id}}</td>
+    <td>{{Name}}</td>
+    <td>{{Email}}</td>
+    <td>{{Phone_number}}</td>
+  </tr>
+  {{/each}}
+</table>
+
+<h2>{{ title3 }}</h2>
+<table>
+  <tr>
+    <td>Id</td>
+    <td>Name</td>
+    <td>Capacity</td>
+    <td>building_Id</td>
+    <td>Department_Id</td>
+  </tr>
+  {{#each Room}}
+  <tr>
+    <td>{{Id}}</td>
+    <td>{{Name}}</td>
+    <td>{{Capacity}}</td>
+    <td>{{building_Id}}</td>
+    <td>{{Department_Id}}</td>
+  </tr>
+  {{/each}}
+</table>
+
+<h2>{{ title4 }}</h2>
+<table>
+  <tr>
+    <td>Id</td>
+    <td>Name</td>
+    <td>Email</td>
+    <td>PhoneNumber</td>
+    <td>Major</td>
+  </tr>
+  {{#each Student}}
+  <tr>
+    <td>{{Id}}</td>
+    <td>{{Name}}</td>
+    <td>{{Email}}</td>
+    <td>{{PhoneNumber}}</td>
+    <td>{{Major}}</td>
+  </tr>
+  {{/each}}
+</table>
+
+<h2>{{ title5 }}</h2>
+<table>
+  <tr>
+    <td>Id</td>
+    <td>Name</td>
+    <td>Professor</td>
+    <td>Number_of_participants</td>
+    <td>Department_Id</td>
+    <td>Room_Id</td>
+  </tr>
+  {{#each Class}}
+  <tr>
+    <td>{{Id}}</td>
+    <td>{{Name}}</td>
+    <td>{{Professor}}</td>
+    <td>{{Number_of_participants}}</td>
+    <td>{{Department_Id}}</td>
+    <td>{{Room_Id}}</td>
+  </tr>
+  {{/each}}
+</table>
+
+<p><a href="/delete/class">수강취소 페이지로 이동</a></p>
