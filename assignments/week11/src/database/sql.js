@@ -3,9 +3,9 @@ import mysql from "mysql2";
 const pool = mysql.createPool(
   process.env.JAWSDB_URL ?? {
     host: 'localhost',
-    user: 'root',
+    user: 'dbuser',
     database: 'WEEK11_INHA_DB',
-    password: '',
+    password: 'c3409711!',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0

@@ -6,7 +6,11 @@ dotenv.config();
 const pool = mysql.createPool({
     host: 'localhost',
     port: 3306,
+<<<<<<< HEAD
     user: 'root',
+=======
+    user: 'dbuser',
+>>>>>>> b158c1abc2e1e34aef1f27399b4b4034c1f1fd68
     password: 'c3409711!',
     database: 'InhaDB',
     charset: 'utf8mb4',

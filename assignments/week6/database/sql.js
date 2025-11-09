@@ -4,8 +4,8 @@ require("dotenv").config();
 const pool = mysql.createPool({
   host: 'localhost',
   port: 3306,
-  user: 'root',
-  password: 'c3409711',
+  user: 'dbuser',
+  password: 'c3409711!',
   database: 'inha_week5',
   charset: 'utf8mb4',
   collation: 'utf8mb4_unicode_ci',
