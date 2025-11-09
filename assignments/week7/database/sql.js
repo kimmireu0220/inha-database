@@ -7,7 +7,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'c3409711!',
+    password: 'c3409711',
     database: 'InhaDB',
     charset: 'utf8mb4',
     collation: 'utf8mb4_unicode_ci',
@@ -54,13 +54,13 @@ export const selectSql = {
         return result[0];
     },
     getStudentByLogin: async (id, phoneNumber) => {
-        const sql = `select * from Student where Id = ${id} and PhoneNumber = "${phoneNumber}"`;
+        const sql = `select * from Student where Id = ${id} and Phone_number = "${phoneNumber}"`;
         const [result] = await promisePool.query(sql);
         return result[0];
     },
     getEnrolledClasses: async (studentId) => {
         const sql = `
-            select c.Id, c.Name, c.Professor, c.Number_of_participants, c.Department_Id, c.Room_Id
+            select c.Id, c.Name, c.Professor, c.Number_of_participants
             from Class c
             inner join Enrollment e on c.Id = e.Class_Id
             where e.Student_Id = ${studentId}
