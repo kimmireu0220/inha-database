@@ -359,7 +359,7 @@ app.use('/delete', deleteRouter);
 
 **설명**:
 - 로그인 성공 후 자동으로 이동하는 페이지입니다.
-- 로그인한 학생(학생 1번: LEE Sangwon)의 정보가 "Student (내 정보)" 섹션에 표시됩니다.
+- 로그인한 학생(학생 2번: Hong Gil Dong)의 정보가 "Student (내 정보)" 섹션에 표시됩니다.
 - Building, Department, Room, Class 테이블 정보도 함께 표시되어 전체 데이터베이스 구조를 확인할 수 있습니다.
 
 ### 3.3 수강취소 페이지 (삭제 전)
@@ -367,16 +367,17 @@ app.use('/delete', deleteRouter);
 
 **설명**:
 - `localhost:3000/delete/class` 경로로 접속한 화면입니다.
-- 학생 1번이 수강하는 수업 1개가 표시됩니다:
-  - Data Structures (Prof. Kim)
+- 학생 2번이 수강하는 수업 2개가 표시됩니다:
+  - Database (Prof. Choi)
+  - Circuit Theory (Prof. Park)
 - 각 수업마다 "수강취소" 버튼이 있어 클릭 시 해당 수업을 수강취소할 수 있습니다.
 
 ### 3.4 수강취소 페이지 (삭제 후)
 ![수강취소 후 화면](screenshots/04_after_delete_class.png)
 
 **설명**:
-- Data Structures 수업의 "수강취소" 버튼을 클릭한 후의 화면입니다.
-- 모든 수업이 삭제되어 "수강 중인 수업이 없습니다." 메시지가 표시됩니다.
+- Database 수업의 "수강취소" 버튼을 클릭한 후의 화면입니다.
+- Database 수업이 삭제되어 Circuit Theory 수업만 남아있습니다.
 - 수강취소 기능이 정상적으로 작동하는 것을 확인할 수 있습니다.
 
 ### 3.5 로그인 실패 화면
