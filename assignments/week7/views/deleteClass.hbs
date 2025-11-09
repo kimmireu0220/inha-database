@@ -1,0 +1,41 @@
+<h1>{{ title }}</h1>
+
+{{#if classes}}
+<table>
+  <tr>
+    <td>수업 ID</td>
+    <td>수업명</td>
+    <td>교수명</td>
+    <td>수강인원</td>
+    <td>학과 ID</td>
+    <td>강의실 ID</td>
+    <td>수강취소</td>
+  </tr>
+  {{#each classes}}
+    <form method="post" action="/delete/class">
+      <tr>
+        <td>{{Id}}</td>
+        <td>{{Name}}</td>
+        <td>{{Professor}}</td>
+        <td>{{Number_of_participants}}</td>
+        <td>{{Department_Id}}</td>
+        <td>{{Room_Id}}</td>
+        <td style="border: none; margin-left: 10px;">
+          <input type="hidden" name="classId" value="{{Id}}">
+          <button 
+            style="margin-left: 10px;" 
+            type="submit"
+          >
+          수강취소
+          </button>
+        </td>
+      </tr>    
+    </form>
+  {{/each}}
+</table>
+{{else}}
+<p>수강 중인 수업이 없습니다.</p>
+{{/if}}
+
+<p><a href="/select">조회 페이지로 돌아가기</a></p>
+

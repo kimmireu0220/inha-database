@@ -48,6 +48,26 @@ export const selectSql = {
         const [result] = await promisePool.query(sql);
         return result;
     },
+    getStudentById: async (id) => {
+        const sql = `select * from Student where Id = ${id}`;
+        const [result] = await promisePool.query(sql);
+        return result[0];
+    },
+    getStudentByLogin: async (id, phoneNumber) => {
+        const sql = `select * from Student where Id = ${id} and PhoneNumber = "${phoneNumber}"`;
+        const [result] = await promisePool.query(sql);
+        return result[0];
+    },
+    getEnrolledClasses: async (studentId) => {
+        const sql = `
+            select c.Id, c.Name, c.Professor, c.Number_of_participants, c.Department_Id, c.Room_Id
+            from Class c
+            inner join Enrollment e on c.Id = e.Class_Id
+            where e.Student_Id = ${studentId}
+        `;
+        const [result] = await promisePool.query(sql);
+        return result;
+    },
 }
 
 // insert query
@@ -82,6 +102,15 @@ export const updateSql = {
             SET Id = ${data.Id}, Name = "${data.Name}", 
                 Email = "${data.Email}", Phone_number = "${data.PhoneNumber}"
             WHERE Id = ${data.Id}`;
+        console.log(sql);
+        await promisePool.query(sql);
+    },
+};
+
+// delete query
+export const deleteSql = {
+    deleteEnrollment: async (studentId, classId) => {
+        const sql = `delete from Enrollment where Student_Id = ${studentId} and Class_Id = ${classId}`;
         console.log(sql);
         await promisePool.query(sql);
     },
