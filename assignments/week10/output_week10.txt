@@ -1,108 +1,0 @@
-데이터베이스설계
-(ICE4016)
-실습 10주차
-Web, Login
-
-Prof. Wonik Choi
-
-Week 10 practice
-ㅇ웹 상에서 로그인 기능 구현 및 권한 설정
-- ‘/’(로그인 화면), ‘/select’ (조회 화면),
-
-localhost:3000/
-(로그인 페이지)
-
-- ‘/delete’ (데이터 삭제 화면)
-
-localhost:3000/select
-(전체 데이터 조회 페이지)
-
-localhost:3000/delete
-(데이터 선택 삭제 페이지)
-
-2
-
-Week 10 practice
-ㅇ데이터베이스 생성
-
-https://github.com/leesw9501/Database/tree/main/week10
-
-- Source week10.sql
-
-3
-
-Week 10 practice
-ㅇ프로젝트 생성 및 환경 세팅
-• npm init
-• npm install express mysql2 body-parser nodemon morgan dotenv express-session
-• npm install @babel/node @babel/core @babel/preset-env
-• npm link hbs
-
-4
-
-Week 10 practice
-ㅇ프로젝트 생성 및 환경 세팅
-
-5
-
-Week 10 practice
-
-6
-
-Week 10 practice
-
-7
-
-Week 10 practice
-
-8
-
-Week 10 practice
-
-9
-
-Week 10 practice
-
-10
-
-Week 10 practice
-ㅇ서버 실행
-- 콘솔창에서 “npm run start” 명령어로 서버 실행하여 기능 확인
-• 웹 브라우저에서 localhost:3000 접속
-➢ 로그인 화면 확인
-▪ DB에 저장된 유저 정보 확인
-▪ 로그인 성공 시 화면 이동
-▪ 로그인 실패 시 경고 창 팝업
-
-11
-
-Week 10 practice
-ㅇ서버 실행
-- 콘솔창에서 “npm run start” 명령어로 서버 실행하여 기능 확인
-• 웹 브라우저에서 localhost:3000/select 접속
-➢ Department 테이블 데이터 조회
-
-12
-
-Week 10 practice
-ㅇ서버 실행
-- 콘솔창에서 “npm run start” 명령어로 서버 실행하여 기능 확인
-• 웹 브라우저에서 localhost:3000/delete 접속
-➢ 삭제 버튼을 클릭하여 해당 데이터 삭제
-
-13
-
-Week 10 Assignment
-ㅇSTEP 1 : 7주차 Inha DB 웹에 로그인 기능 적용
-- 학생의 학번 및 비밀번호 (전화번호)로 로그인 하는 기능 구현할 것
-• 학생은 학생 정보를 조회할 수 있는 페이지로 이동
-
-ㅇSTEP 2 : localhost:3000/delete/class 페이지 만들기
-- 학생으로 로그인 한 경우에만 수강하는 수업(class)을 수강취소(삭제) 할 수 있도록 구현
-
-ㅇ소스코드 제출 안해도 됨, 보고서 작성하여 제출
-- 로그인, 삭제 기능 관련 캡처 및 분석
-
-14
-
-

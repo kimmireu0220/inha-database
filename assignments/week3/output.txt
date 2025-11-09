@@ -1,135 +1,0 @@
-데이터베이스설계
-(ICE4016)
-MySQL 기본 사용법
-
-Prof. Wonik Choi
-
-실행 및 중지
-
-“서비스”에서
-시작 및 중지
-
-2
-
-MySQL Reference Manual
-ㅇhttps://dev.mysql.com/doc/refman/8.0/en/
-
-3
-
-MySQL 접속 및 해제
-ㅇmysql 접속
-
-명령취소 Ctrl+C
-접속끊기
-
-4
-
-Database 생성하기, 사용자 생성하기
-ㅇmysql> create database DB이름;
-ㅇ예
-
-ㅇmysql> CREATE USER ‘username'@'localhost' IDENTIFIED BY 'password';
-ㅇ예
-
-5
-
-권한(privilege) 주기 (GRANT, REVOKE)
-ㅇGRANT ALL ON db1.* TO ‘username'@'localhost';
-
-DB에 적용하라는 의미. 반드시 실행해야 함
-
-6
-
-serverTimezone 설정
-ㅇdatabase를 생성하면 serverTimezone을 설정해주어야 함
-
-ㅇ또는 my.ini 에 설정
-
-ㅇ또는 connection string에 설정
-- "jdbc:mysql://localhost/dbdesign?serverTimezone=Asia/Seoul"
-7
-
-새 사용자로 접속 및 실습예
-내장 함수 사용
-
-내장 함수 사용
-
-여러 라인으로 입력해도 됨
-내장 함수 사용
-
-8
-
-select문 실행
-
-Table 만들기 및 기본적인 SQL문
-database 목록보기
-
-속성이름 오류
-SQL은 case insensitive
-insert 문 실행
-
-table 목록보기
-SQL은 case insensitive
-
-student
-릴레이션
-생성
-
-참조 무결성 오류
-
-table 스키마 보기(describe)
-
-predicate사용
-
-9
-
-SQL (Structured Query Language)
-ㅇSELECT : 데이터베이스에서 데이터를 검색할 때 사용되며, 데이터를 조회하는 데
-사용됨
-ㅇINSERT : 데이터베이스 테이블에 새로운 데이터를 추가하는 데 사용됨
-
-ㅇUPDATE : 데이터베이스 테이블의 기존 데이터를 수정하는 데 사용됨
-ㅇDELETE : 데이터베이스 테이블에서 데이터를 삭제하는 데 사용됨
-
-ㅇCREATE : 데이터베이스 객체(테이블, 뷰, 인덱스 등)를 생성하는 데 사용됨
-ㅇALTER : 데이터베이스 객체의 구조를 수정하는 데 사용됨
-ㅇDROP : 데이터베이스 객체(테이블, 뷰, 인덱스 등)를 삭제하는 데 사용됨
-
-10
-
-SQL (Structured Query Language)
-ㅇSELECT first_name, last_name FROM employee WHERE salary >= 50000;
-ㅇSELECT name, salary FROM employee ORDER BY salary ASC/DESC;
-ㅇINSERT INTO employee (first_name, last_name, salary) VALUES ('John', 'Doe',
-60000);
-
-ㅇUPDATE employee SET salary = 65000 WHERE first_name = 'John' AND
-last_name = 'Doe’;
-ㅇDELETE FROM employee WHERE first_name = 'John' AND last_name = 'Doe';
-11
-
-SQL (Structured Query Language)
-ㅇSELECT e.first_name, e.last_name, c.client_name
-FROM employee e
-INNER JOIN works_with ww ON e.emp_id = ww.emp_id
-INNER JOIN client c ON ww.client_id = c.client_id;
-
-ㅇSELECT *
-FROM employee
-WHERE birth_day BETWEEN '1990-01-01' AND '2000-12-31’;
-ㅇSELECT COUNT(*) AS total_customers FROM customer;
-ㅇSELECT department, AVG(salary) AS avg_salary FROM employees
-GROUP BY department;
-12
-
-COMPANY Database
-
-13
-https://www.giraffeacademy.com/databases/sql/company-database-intro/
-
-COMPANY_Database_Schema.sql
-
-14
-https://www.giraffeacademy.com/databases/sql/creating-company-database/
-
-

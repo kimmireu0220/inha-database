@@ -1,6 +1,0 @@
-Field	Type	Null	Key	Default	Extra
-Id	int	NO	PRI	NULL	auto_increment
-Name	varchar(50)	NO		NULL	
-Email	varchar(50)	NO		NULL	
-Phone_number	varchar(20)	NO		NULL	
-Major	varchar(50)	NO		NULL	
