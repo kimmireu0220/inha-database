@@ -9,26 +9,32 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
     const vars = req.body;
-    const users = await selectSql.getUser();
-
-    users.map((user) => {
-        console.log('ID :', user.Id);
-        if (vars.id === user.Id && vars.password === user.Password) {
+    
+    try {
+        // Student 테이블에서 Id(학번)와 PhoneNumber(비밀번호)로 검증
+        const student = await selectSql.getStudentByLogin(vars.id, vars.password);
+        
+        if (student) {
             console.log('login success!');
-            req.session.user = { id: user.Id, role: user.Role, checkLogin: true };
+            req.session.user = { 
+                id: student.Id, 
+                role: 'student', 
+                checkLogin: true 
+            };
+            res.redirect('/select');
+        } else {
+            console.log('login failed!');
+            res.send(`<script>
+                        alert('login failed!');
+                        location.href='/';
+                    </script>`);
         }
-    });
-
-    if (req.session.user == undefined) {
-        console.log('login failed!');
+    } catch (error) {
+        console.error('Login error:', error);
         res.send(`<script>
-                    alert('login failed!');
+                    alert('로그인 중 오류가 발생했습니다.');
                     location.href='/';
-                </script>`)
-    } else if (req.session.user.checkLogin && req.session.user.role === 'super') {
-        res.redirect('/delete');
-    } else if (req.session.user.checkLogin && req.session.user.role === 'student') {
-        res.redirect('/select');
+                </script>`);
     }
 });
 

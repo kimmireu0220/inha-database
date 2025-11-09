@@ -363,7 +363,7 @@ app.use('/delete', deleteRouter);
 - Building, Department, Room, Class 테이블 정보도 함께 표시되어 전체 데이터베이스 구조를 확인할 수 있음.
 
 ### 3.3 수강취소 페이지 (삭제 전)
-![수강취소 페이지](../week7/screenshots/03_delete_class_page.png)
+![수강취소 페이지](screenshots/03_delete_class_page.png)
 
 **설명**:
 - `localhost:3000/delete/class` 경로로 접속한 화면임.
@@ -381,7 +381,7 @@ app.use('/delete', deleteRouter);
 - 수강취소 기능이 정상적으로 작동하는 것을 확인할 수 있음.
 
 ### 3.5 로그인 실패 화면
-![로그인 실패](../week7/screenshots/05_login_failed.png)
+![로그인 실패](screenshots/05_login_failed.png)
 
 **설명**:
 - 잘못된 학번이나 비밀번호를 입력한 경우 "login failed!" 알림 창이 표시됨.
