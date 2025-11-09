@@ -22,8 +22,11 @@ Database/
 │   ├── week2/          # Week 2: HTML/CSS/JavaScript 기초
 │   ├── week2_2/        # Week 2-2: Node.js 환경 구성
 │   ├── week3/          # Week 3: 데이터베이스 스키마 설계
+│   ├── week4/          # Week 4: Node.js 데이터베이스 조회
 │   ├── week6/          # Week 6: Express.js CRUD 애플리케이션
-│   ├── week10/         # Week 10: 인증 시스템 및 삭제 기능
+│   ├── week7/          # Week 7: MySQL Express 연동 (INSERT/SELECT/UPDATE)
+│   ├── week9/          # Week 9: SQL 쿼리 실습
+│   ├── week10/         # Week 10: 학생 로그인 및 수강취소 기능
 │   └── week11/         # Week 11: 통합 웹 애플리케이션
 └── README.md
 ```
@@ -65,16 +68,33 @@ Database/
 - **SQL DDL**: CREATE, ALTER, DROP
 - **COMPANY 데이터베이스 스키마 설계**
 
+### Week 4: Node.js 데이터베이스 조회
+- **Node.js를 통한 MySQL 연결**
+- **COMPANY 데이터베이스 조회**
+- **동적 HTML 생성**
+
 ### Week 6: Express.js CRUD 애플리케이션
 - **Express.js 기본 구조**
 - **라우팅 및 미들웨어**
 - **MySQL 연동**
 - **CRUD 연산 구현**
 
-### Week 10: 인증 및 삭제 기능
-- **로그인 시스템 구현**
-- **세션 관리**
-- **데이터 삭제 기능**
+### Week 7: MySQL Express 연동
+- **데이터 삽입(INSERT) 기능**
+- **데이터 조회(SELECT) 기능**
+- **데이터 수정(UPDATE) 기능**
+- **Handlebars 템플릿 엔진 활용**
+
+### Week 9: SQL 쿼리 실습
+- **COMPANY 데이터베이스 활용**
+- **기본 SQL 쿼리 작성**
+- **조인, 집계 함수, 서브쿼리 등 고급 SQL**
+
+### Week 10: 학생 로그인 및 수강취소 기능
+- **학생 로그인 시스템 구현**
+- **세션 관리 (express-session)**
+- **권한 기반 접근 제어**
+- **수강취소(DELETE) 기능**
 
 ### Week 11: 통합 웹 애플리케이션
 - **완전한 풀스택 애플리케이션**
@@ -106,7 +126,7 @@ Database/
 
 3. **의존성 설치** (각 주차별 폴더에서 실행)
    ```bash
-   cd assignments/week6
+   cd assignments/week6  # 또는 week4, week7, week10, week11
    npm install
    ```
 
@@ -122,9 +142,11 @@ Database/
 # Week 2: HTML 파일을 브라우저에서 직접 열기
 open assignments/week2/week2_1.html
 
-# Week 6 이후: Node.js 애플리케이션 실행
-cd assignments/week6
-node src/index.js
+# Week 4, 6, 7, 10, 11: Node.js 애플리케이션 실행
+cd assignments/week6  # 또는 week4, week7, week10, week11
+npm start             # nodemon을 사용한 자동 재시작
+# 또는
+node src/index.js     # 직접 실행
 ```
 
 ## 📝 사용 방법
