@@ -1,22 +1,28 @@
 <h1>{{ title }}</h1>
 
-<table>
-  <tr>
-    <td>Dname</td>
-    <td>Dnumber</td>
+{{#if department}}
+<table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+  <tr style="background-color: #f0f0f0;">
+    <td><strong>Dname</strong></td>
+    <td><strong>Dnumber</strong></td>
+    <td><strong>삭제</strong></td>
   </tr>
   {{#each department}}
-    <form method="post">
+    <form method="post" action="/delete">
       <tr>
-        <td>{{Dname}}</td>
-        <td>{{Dnumber}}</td>
-        <td style="border: none; margin-left: 10px;">
+        <td>{{Name}}</td>
+        <td>{{Id}}</td>
+        <td style="text-align: center;">
+          <input type="hidden" name="departmentId" value="{{Id}}">
           <button 
-            style="margin-left: 10px;" 
-            name='delBtn' 
-            type="submit" 
-            value="{{Dnumber}}" 
-            formaction="/delete"
+            type="submit"
+            style="
+              border: 1px solid #ccc;
+              padding: 8px 16px;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 14px;
+            "
           >
           delete
           </button>
@@ -25,3 +31,9 @@
     </form>
   {{/each}}
 </table>
+{{else}}
+<p>삭제할 학과가 없습니다.</p>
+{{/if}}
+
+<p><a href="/select">조회 페이지로 돌아가기</a></p>
+<p><a href="/logout">로그아웃</a></p>

@@ -63,9 +63,31 @@ export const selectSql = {
 }
 
 export const deleteSql = {
-    deleteDepartment: async (data) => {
-        console.log('delete department Dnumber =', data);
-        const sql = `delete from department where Dnumber=${data.Dnumber}`
+    deleteDepartment: async (departmentId) => {
+        console.log('delete department Id =', departmentId);
+        
+        // 관련 데이터 먼저 삭제 (CASCADE 삭제)
+        // 1. 관련 Enrollment 삭제 (Class를 삭제하기 전에)
+        const deleteEnrollmentSql = `
+            DELETE e FROM Enrollment e
+            INNER JOIN Class c ON e.Class_Id = c.Id
+            WHERE c.Department_Id = ${departmentId}
+        `;
+        await promisePool.query(deleteEnrollmentSql);
+        console.log('Deleted related enrollments');
+        
+        // 2. 관련 Class 삭제
+        const deleteClassSql = `DELETE FROM Class WHERE Department_Id = ${departmentId}`;
+        await promisePool.query(deleteClassSql);
+        console.log('Deleted related classes');
+        
+        // 3. 관련 Room 삭제
+        const deleteRoomSql = `DELETE FROM Room WHERE Department_Id = ${departmentId}`;
+        await promisePool.query(deleteRoomSql);
+        console.log('Deleted related rooms');
+        
+        // 4. 마지막으로 Department 삭제
+        const sql = `DELETE FROM Department WHERE Id = ${departmentId}`;
         console.log(sql);
         await promisePool.query(sql);
     },

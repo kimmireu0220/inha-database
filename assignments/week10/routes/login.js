@@ -11,23 +11,35 @@ router.post('/', async (req, res) => {
     const vars = req.body;
     
     try {
-        // Student 테이블에서 Id(학번)와 PhoneNumber(비밀번호)로 검증
-        const student = await selectSql.getStudentByLogin(vars.id, vars.password);
-        
-        if (student) {
-            console.log('login success!');
+        // admin 계정 체크
+        if (vars.id === 'admin' && vars.password === 'admin') {
+            console.log('admin login success!');
             req.session.user = { 
-                id: student.Id, 
-                role: 'student', 
+                id: 'admin', 
+                role: 'admin', 
                 checkLogin: true 
             };
             res.redirect('/select');
-        } else {
-            console.log('login failed!');
-            res.send(`<script>
-                        alert('login failed!');
-                        location.href='/';
-                    </script>`);
+        }
+        // Student 테이블에서 Id(학번)와 PhoneNumber(비밀번호)로 검증
+        else {
+            const student = await selectSql.getStudentByLogin(vars.id, vars.password);
+            
+            if (student) {
+                console.log('login success!');
+                req.session.user = { 
+                    id: student.Id, 
+                    role: 'student', 
+                    checkLogin: true 
+                };
+                res.redirect('/select');
+            } else {
+                console.log('login failed!');
+                res.send(`<script>
+                            alert('login failed!');
+                            location.href='/';
+                        </script>`);
+            }
         }
     } catch (error) {
         console.error('Login error:', error);
