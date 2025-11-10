@@ -3,13 +3,13 @@
 {{#if classes}}
 <table>
   <tr>
-    <td>수업 ID</td>
-    <td>수업명</td>
-    <td>교수명</td>
-    <td>수강인원</td>
-    <td>학과 ID</td>
-    <td>강의실 ID</td>
-    <td>수강취소</td>
+    <th>수업 ID</th>
+    <th>수업명</th>
+    <th>교수명</th>
+    <th>수강인원</th>
+    <th>학과 ID</th>
+    <th>강의실 ID</th>
+    <th>수강취소</th>
   </tr>
   {{#each classes}}
     <form method="post" action="/delete/class">
@@ -20,10 +20,9 @@
         <td>{{Number_of_participants}}</td>
         <td>{{Department_Id}}</td>
         <td>{{Room_Id}}</td>
-        <td style="border: none; margin-left: 10px;">
+        <td style="text-align: center;">
           <input type="hidden" name="classId" value="{{Id}}">
           <button 
-            style="margin-left: 10px;" 
             type="submit"
           >
           수강취소
