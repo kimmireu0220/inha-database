@@ -38,4 +38,14 @@ router.post('/', async (req, res) => {
     }
 });
 
+// 로그아웃
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Logout error:', err);
+        }
+        res.redirect('/');
+    });
+});
+
 module.exports = router;
