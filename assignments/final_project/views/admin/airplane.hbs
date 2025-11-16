@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>항공기 관리</h2>
+        <h3>항공기 추가</h3>
+        <form method="post" action="/admin/airplane">
+            <div><label>항공기 ID: <input type="text" name="Airplane_id" required></label></div>
+            <div><label>좌석 수: <input type="number" name="Total_number_of_seats" required></label></div>
+            <div><label>항공기 타입: <select name="Airplane_type" required>{{#each airplaneTypes}}<option value="{{Type_name}}">{{Type_name}}</option>{{/each}}</select></label></div>
+            <div><button type="submit">추가</button></div>
+        </form>
+        <h3>항공기 목록</h3>
+        <table><thead><tr><th>ID</th><th>좌석수</th><th>타입</th><th>작업</th></tr></thead>
+        <tbody>{{#each airplanes}}<tr><td>{{Airplane_id}}</td><td>{{Total_number_of_seats}}</td><td>{{Airplane_type}}</td>
+        <td><a href="/admin/airplane/update/{{Airplane_id}}">수정</a> <form method="post" action="/admin/airplane/delete" style="display:inline;"><input type="hidden" name="id" value="{{Airplane_id}}"><button type="submit">삭제</button></form></td></tr>{{/each}}</tbody></table>
+        <a href="/admin">관리자 메인</a>
+    </main>
+</body>
+</html>
+

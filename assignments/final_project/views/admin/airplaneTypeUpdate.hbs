@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>항공기 타입 수정</h2>
+        <form method="post" action="/admin/airplane-type/update">
+            <input type="hidden" name="Type_name" value="{{airplaneType.Type_name}}">
+            <div><label>타입명: {{airplaneType.Type_name}}</label></div>
+            <div><label>최대 좌석수: <input type="number" name="Max_seats" value="{{airplaneType.Max_seats}}" required></label></div>
+            <div><label>제조사: <input type="text" name="Company" value="{{airplaneType.Company}}"></label></div>
+            <div><button type="submit">수정</button> <a href="/admin/airplane-type">취소</a></div>
+        </form>
+    </main>
+</body>
+</html>
+

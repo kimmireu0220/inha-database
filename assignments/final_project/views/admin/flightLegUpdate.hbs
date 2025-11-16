@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>항공편 구간 수정</h2>
+        <form method="post" action="/admin/flight-leg/update">
+            <input type="hidden" name="Flight_number" value="{{flightLeg.Flight_number}}">
+            <input type="hidden" name="Leg_number" value="{{flightLeg.Leg_number}}">
+            <div><label>항공편: {{flightLeg.Flight_number}} | 구간: {{flightLeg.Leg_number}}</label></div>
+            <div><label>출발 공항: <select name="Departure_airport_code" required>{{#each airports}}<option value="{{Airport_code}}" {{#if (eq Airport_code ../flightLeg.Departure_airport_code)}}selected{{/if}}>{{Name}} ({{Airport_code}})</option>{{/each}}</select></label></div>
+            <div><label>출발 시간: <input type="time" name="Scheduled_departure_time" value="{{flightLeg.Scheduled_departure_time}}" required></label></div>
+            <div><label>도착 공항: <select name="Arrival_airport_code" required>{{#each airports}}<option value="{{Airport_code}}" {{#if (eq Airport_code ../flightLeg.Arrival_airport_code)}}selected{{/if}}>{{Name}} ({{Airport_code}})</option>{{/each}}</select></label></div>
+            <div><label>도착 시간: <input type="time" name="Scheduled_arrival_time" value="{{flightLeg.Scheduled_arrival_time}}" required></label></div>
+            <div><button type="submit">수정</button> <a href="/admin/flight-leg">취소</a></div>
+        </form>
+    </main>
+</body>
+</html>
+

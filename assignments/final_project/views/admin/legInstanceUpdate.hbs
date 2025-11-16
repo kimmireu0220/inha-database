@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>항공편 구간 인스턴스 수정</h2>
+        <form method="post" action="/admin/leg-instance/update">
+            <input type="hidden" name="Flight_number" value="{{legInstance.Flight_number}}">
+            <input type="hidden" name="Leg_number" value="{{legInstance.Leg_number}}">
+            <input type="hidden" name="Date" value="{{legInstance.Date}}">
+            <div><label>항공편: {{legInstance.Flight_number}} | 구간: {{legInstance.Leg_number}} | 날짜: {{legInstance.Date}}</label></div>
+            <div><label>항공기: <select name="Airplane_id" required>{{#each airplanes}}<option value="{{Airplane_id}}" {{#if (eq Airplane_id ../legInstance.Airplane_id)}}selected{{/if}}>{{Airplane_id}} ({{Airplane_type}})</option>{{/each}}</select></label></div>
+            <div><label>사용가능 좌석: <input type="number" name="Number_of_available_seats" value="{{legInstance.Number_of_available_seats}}" required></label></div>
+            <div><label>출발 공항: <select name="Departure_airport_code" required>{{#each airports}}<option value="{{Airport_code}}" {{#if (eq Airport_code ../legInstance.Departure_airport_code)}}selected{{/if}}>{{Name}} ({{Airport_code}})</option>{{/each}}</select></label></div>
+            <div><label>출발 시간: <input type="time" name="Departure_time" value="{{legInstance.Departure_time}}"></label></div>
+            <div><label>도착 공항: <select name="Arrival_airport_code" required>{{#each airports}}<option value="{{Airport_code}}" {{#if (eq Airport_code ../legInstance.Arrival_airport_code)}}selected{{/if}}>{{Name}} ({{Airport_code}})</option>{{/each}}</select></label></div>
+            <div><label>도착 시간: <input type="time" name="Arrival_time" value="{{legInstance.Arrival_time}}"></label></div>
+            <div><button type="submit">수정</button> <a href="/admin/leg-instance">취소</a></div>
+        </form>
+    </main>
+</body>
+</html>
+

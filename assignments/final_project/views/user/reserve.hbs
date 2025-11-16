@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>예약하기</h2>
+        <form method="post" action="/user/reserve">
+            <input type="hidden" name="flightNumber" value="{{legInstance.Flight_number}}">
+            <input type="hidden" name="legNumber" value="{{legInstance.Leg_number}}">
+            <input type="hidden" name="date" value="{{legInstance.Date}}">
+            <h3>항공편 정보</h3>
+            <p>항공편: {{legInstance.Flight_number}} | 구간: {{legInstance.Leg_number}}</p>
+            <p>출발: {{legInstance.Departure_airport_name}} ({{legInstance.Departure_airport_code}}) - {{legInstance.Departure_time}}</p>
+            <p>도착: {{legInstance.Arrival_airport_name}} ({{legInstance.Arrival_airport_code}}) - {{legInstance.Arrival_time}}</p>
+            <p>날짜: {{legInstance.Date}}</p>
+            <div><label>좌석 선택: <select name="seatNumber" required><option value="">선택하세요</option>{{#each availableSeats}}<option value="{{this}}">{{this}}</option>{{/each}}</select></label></div>
+            <h3>고객 정보</h3>
+            <div><label>이름: <input type="text" name="name" required></label></div>
+            <div><label>전화번호: <input type="text" name="phone" required></label></div>
+            <div><label>이메일: <input type="email" name="email"></label></div>
+            <div><label>여권번호: <input type="text" name="passport"></label></div>
+            <div><button type="submit">예약하기</button> <a href="/user" style="margin-left: 1rem;">취소</a></div>
+        </form>
+    </main>
+    <footer><p>&copy; 2025 AIRLINE Reservation System</p></footer>
+</body>
+</html>
+

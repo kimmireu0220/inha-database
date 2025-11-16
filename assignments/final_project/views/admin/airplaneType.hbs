@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>항공기 타입 관리</h2>
+        <h3>항공기 타입 추가</h3>
+        <form method="post" action="/admin/airplane-type">
+            <div><label>타입명: <input type="text" name="Type_name" required></label></div>
+            <div><label>최대 좌석수: <input type="number" name="Max_seats" required></label></div>
+            <div><label>제조사: <input type="text" name="Company"></label></div>
+            <div><button type="submit">추가</button></div>
+        </form>
+        <h3>항공기 타입 목록</h3>
+        <table><thead><tr><th>타입명</th><th>최대 좌석수</th><th>제조사</th><th>작업</th></tr></thead>
+        <tbody>{{#each airplaneTypes}}<tr><td>{{Type_name}}</td><td>{{Max_seats}}</td><td>{{Company}}</td>
+        <td><a href="/admin/airplane-type/update/{{Type_name}}">수정</a> <form method="post" action="/admin/airplane-type/delete" style="display:inline;"><input type="hidden" name="name" value="{{Type_name}}"><button type="submit">삭제</button></form></td></tr>{{/each}}</tbody></table>
+        <a href="/admin">관리자 메인</a>
+    </main>
+</body>
+</html>
+

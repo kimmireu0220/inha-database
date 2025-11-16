@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - AIRLINE Reservation System</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>AIRLINE Reservation System</h1>
+        <nav>
+            <a href="/">홈</a>
+            <a href="/admin">관리자</a>
+            <a href="/user">사용자</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>공항 관리</h2>
+        
+        <h3>공항 추가</h3>
+        <form method="post" action="/admin/airport">
+            <div>
+                <label for="Airport_code">공항 코드:</label>
+                <input type="text" id="Airport_code" name="Airport_code" required maxlength="3" style="text-transform: uppercase;">
+            </div>
+            <div>
+                <label for="Name">공항명:</label>
+                <input type="text" id="Name" name="Name" required>
+            </div>
+            <div>
+                <label for="City">도시:</label>
+                <input type="text" id="City" name="City" required>
+            </div>
+            <div>
+                <label for="Country">국가:</label>
+                <input type="text" id="Country" name="Country" required>
+            </div>
+            <div>
+                <label for="Timezone">시간대:</label>
+                <input type="text" id="Timezone" name="Timezone">
+            </div>
+            <div>
+                <button type="submit">추가</button>
+            </div>
+        </form>
+        
+        <h3>공항 목록</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>공항 코드</th>
+                    <th>공항명</th>
+                    <th>도시</th>
+                    <th>국가</th>
+                    <th>시간대</th>
+                    <th>작업</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each airports}}
+                <tr>
+                    <td>{{Airport_code}}</td>
+                    <td>{{Name}}</td>
+                    <td>{{City}}</td>
+                    <td>{{Country}}</td>
+                    <td>{{Timezone}}</td>
+                    <td>
+                        <a href="/admin/airport/update/{{Airport_code}}" class="btn">수정</a>
+                        <form method="post" action="/admin/airport/delete" style="display: inline;">
+                            <input type="hidden" name="code" value="{{Airport_code}}">
+                            <button type="submit" class="btn btn-danger">삭제</button>
+                        </form>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        
+        <div style="margin-top: 2rem;">
+            <a href="/admin">관리자 메인</a>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 AIRLINE Reservation System</p>
+    </footer>
+</body>
+</html>
+

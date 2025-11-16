@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>항공편 관리</h2>
+        <h3>항공편 추가</h3>
+        <form method="post" action="/admin/flight">
+            <div><label>항공편 번호: <input type="text" name="Flight_number" required></label></div>
+            <div><label>항공사: <input type="text" name="Airline" required></label></div>
+            <div><label>운항요일: <input type="text" name="Weekdays" placeholder="Mon,Wed,Fri"></label></div>
+            <div><button type="submit">추가</button></div>
+        </form>
+        <h3>항공편 목록</h3>
+        <table><thead><tr><th>번호</th><th>항공사</th><th>운항요일</th><th>작업</th></tr></thead>
+        <tbody>{{#each flights}}<tr><td>{{Flight_number}}</td><td>{{Airline}}</td><td>{{Weekdays}}</td>
+        <td><a href="/admin/flight/update/{{Flight_number}}">수정</a> <form method="post" action="/admin/flight/delete" style="display:inline;"><input type="hidden" name="number" value="{{Flight_number}}"><button type="submit">삭제</button></form></td></tr>{{/each}}</tbody></table>
+        <a href="/admin">관리자 메인</a>
+    </main>
+</body>
+</html>
+

@@ -1,0 +1,126 @@
+데이터베이스설계
+(EEC4408)
+Term Project
+AIRLINE 데이터베이스 구현 및 Web응용
+작성
+
+Prof. Wonik Choi
+
+Project overview
+ㅇ아래 AIRLINE데이터베이스 스키마를 기반으로 항공기 예약시스템을 설계
+하라.
+
+2
+
+Project overview
+ㅇ기본적인 요구사항은 아래와 같음
+- Each FLIGHT is identified by a Flight_number, and consists of one or more FLIGHT_LEGs with
+Leg_numbers 1, 2, 3, and so on.
+- Each FLIGHT_LEG has scheduled arrival and departure times, airports, and one or more
+LEG_INSTANCEs— one for each Date on which the flight travels.
+- FAREs are kept for each FLIGHT.
+- For each FLIGHT_LEG instance, SEAT_RESERVATIONs are kept, as are the AIRPLANE used
+on the leg and the actual arrival and departure times and airports.
+- An AIRPLANE is identified by an Airplane_id and is of a particular AIRPLANE_TYPE.
+- CAN_LAND relates AIRPLANE_TYPEs to the AIRPORTs at which they can land.
+- An AIRPORT is identified by an Airport_code.
+
+3
+
+Project overview
+ㅇ기본적으로 체크해야 할 제약조건은 아래와 같음
+•
+
+The flight number and leg number, arrival airport code, and departure provided in the query
+actually exist in the FLIGHT_LEG table. If it does not, it should be inserted into the
+FLIGHT_LEG table first.
+
+•
+
+There exists an airplane id in the AIRPLANE relation, as the airplane_id value inserted.
+
+•
+
+The airplane_id provides an airplane type. This airplane type should be able to land in the
+airport where the flight will be landing. In other words, there must be a tuple
+<Airplane_type_name, Airport_code> in the CAN_LAND relation matching the values of the
+airplane type of the airplane_id provided for insertion and the arrival airport code.
+
+•
+
+Number of available seats must tally the number of seats in the AIRPLANE_TYPE relation.
+
+•
+
+There exists a flight number in the FLIGHT relation, as the inserted flight number.
+
+•
+
+There exists an airport code in the AIRPORT relation, as the departure airport code.
+
+•
+
+There exists an airport code in the AIRPORT relation, as the arrival airport code.
+4
+
+Project overview
+ㅇ요구 기능
+- 아래 두개의 페이지를 구성한다
+1. 항공기 및 비행 정보를 관리하는 관리자 페이지
+2. 예약조회 및 예약, 예약확인을 위한 사용자 페이지
+
+1. 위 두 기능을 위한 요구사항을 재량껏 추가한 후 ERD를 완성하여 제시하라
+2. 관리자 페이지
+1. 공항 정보 입력/수정/삭제
+2. 항공기 정보 입력/수정/삭제
+3. 항공편 정보 입력/수정/삭제
+4. 위 기능을 구현하기 위한 제약조건을 제시하라.(정규화 확인)
+
+3. 사용자 페이지
+1. 예약하기, 예약조회, 예약취소 기능
+2. 위 기능을 구현하기 위한 제약조건, index, 트랜잭션 등을 제시하라.(정규화 확인)
+5
+
+Project score
+ㅇ점수 배분
+1. 보고서 작성 점수 : 30점
+2. ERD 작성 : 30점
+3. 제약조건 우수성 : 30점
+4. 정규화 작업 우수성 : 30점
+5. 성능(index) 최적화 우수성 : 30점
+6. 관리자 페이지
+1. 공항 정보 입력/수정/삭제 : 10점
+2. 항공기 정보 입력/수정/삭제 : 20점
+3. 항공편 정보 입력/수정/삭제 : 20점
+
+7. 사용자 페이지
+1. 예약하기, 예약조회, 예약취소 기능 : 50점
+2. 트랜잭션 설계 점수는 위에 포함되어 있음
+6
+
+최종 업로드 결과물
+ㅇ보고서(Mac 사용자는 PDF 파일로 제출)
+- 프로젝트 개요 / 상세 설계내용(아래의 내용별로) / 실행 화면 / 고찰 순으로 작성
+• MySQL workbench에서 작성한 EER diagram
+
+• AIRLINE 데이타베이스 생성 스크립트
+➢ Create index 문 포함
+➢ Create view 문 포함
+➢ 트랜잭션 설계 포함
+
+• 실행 화면(각 기능별로)
+
+ㅇ제출물
+- 보고서와 웹 프로젝트 소스를 압축하여 제출
+7
+
+제출 기한
+ㅇ12월 15일 (월) 00:00
+- 12월 15일 (월) 00:00 ~ 12월 16일 (화) 00:00 : 30% (75점) 감점
+- 12월 16일 (화) 00:00 ~ 12월 17일 (수) 00:00 : 50% (125점) 감점
+- 12월 17일 (수) 00:00 ~ 12월 18일 (목) 00:00 : 70% (175점) 감점
+- 12월 18일 (목) 00:00 ~ : 100% (250점) 감점
+
+8
+
+

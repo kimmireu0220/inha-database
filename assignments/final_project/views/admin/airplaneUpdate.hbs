@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>항공기 수정</h2>
+        <form method="post" action="/admin/airplane/update">
+            <input type="hidden" name="Airplane_id" value="{{airplane.Airplane_id}}">
+            <div><label>항공기 ID: {{airplane.Airplane_id}}</label></div>
+            <div><label>좌석 수: <input type="number" name="Total_number_of_seats" value="{{airplane.Total_number_of_seats}}" required></label></div>
+            <div><label>항공기 타입: <select name="Airplane_type" required>{{#each airplaneTypes}}<option value="{{Type_name}}" {{#if (eq Type_name ../airplane.Airplane_type)}}selected{{/if}}>{{Type_name}}</option>{{/each}}</select></label></div>
+            <div><button type="submit">수정</button> <a href="/admin/airplane">취소</a></div>
+        </form>
+    </main>
+</body>
+</html>
+

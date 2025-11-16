@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>항공편 검색</h2>
+        <form method="post" action="/user/search">
+            <div><label>출발지: <select name="departure" required><option value="">선택하세요</option>{{#each airports}}<option value="{{Airport_code}}">{{Name}} ({{Airport_code}})</option>{{/each}}</select></label></div>
+            <div><label>도착지: <select name="arrival" required><option value="">선택하세요</option>{{#each airports}}<option value="{{Airport_code}}">{{Name}} ({{Airport_code}})</option>{{/each}}</select></label></div>
+            <div><label>출발일: <input type="date" name="date" id="date" required></label></div>
+            <div><button type="submit">검색</button></div>
+        </form>
+        <div style="margin-top: 2rem;"><a href="/user/reservation">예약 조회</a></div>
+    </main>
+    <footer><p>&copy; 2025 AIRLINE Reservation System</p></footer>
+    <script>document.getElementById('date').valueAsDate = new Date();</script>
+</body>
+</html>
+

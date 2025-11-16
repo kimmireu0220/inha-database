@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>예약 조회</h2>
+        <h3>고객 정보</h3>
+        <p>이름: {{customer.Name}} | 전화번호: {{customer.Phone_number}}</p>
+        {{#if reservations.length}}
+        <h3>예약 목록</h3>
+        <table>
+            <thead><tr><th>항공편</th><th>날짜</th><th>좌석</th><th>출발지</th><th>출발시간</th><th>도착지</th><th>도착시간</th><th>예약일시</th><th>취소</th></tr></thead>
+            <tbody>{{#each reservations}}<tr><td>{{Flight_number}}</td><td>{{Date}}</td><td>{{Seat_number}}</td><td>{{Departure_airport_name}}</td><td>{{Scheduled_departure_time}}</td><td>{{Arrival_airport_name}}</td><td>{{Scheduled_arrival_time}}</td><td>{{Reservation_date}}</td><td><form method="post" action="/user/cancel" style="display:inline;"><input type="hidden" name="flightNumber" value="{{Flight_number}}"><input type="hidden" name="legNumber" value="{{Leg_number}}"><input type="hidden" name="date" value="{{Date}}"><input type="hidden" name="seatNumber" value="{{Seat_number}}"><button type="submit" class="btn btn-danger">취소</button></form></td></tr>{{/each}}</tbody>
+        </table>
+        {{else}}<p>예약 내역이 없습니다.</p>{{/if}}
+        <div style="margin-top: 2rem;"><a href="/user">항공편 검색</a></div>
+    </main>
+    <footer><p>&copy; 2025 AIRLINE Reservation System</p></footer>
+</body>
+</html>
+

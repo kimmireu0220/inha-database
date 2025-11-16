@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>착륙 가능 관계 관리</h2>
+        <h3>관계 추가</h3>
+        <form method="post" action="/admin/can-land">
+            <div><label>항공기 타입: <select name="Airplane_type_name" required>{{#each airplaneTypes}}<option value="{{Type_name}}">{{Type_name}}</option>{{/each}}</select></label></div>
+            <div><label>공항: <select name="Airport_code" required>{{#each airports}}<option value="{{Airport_code}}">{{Name}} ({{Airport_code}})</option>{{/each}}</select></label></div>
+            <div><button type="submit">추가</button></div>
+        </form>
+        <h3>관계 목록</h3>
+        <table><thead><tr><th>항공기 타입</th><th>공항</th><th>도시</th><th>작업</th></tr></thead>
+        <tbody>{{#each canLands}}<tr><td>{{Airplane_type_name}}</td><td>{{Airport_name}} ({{Airport_code}})</td><td>{{City}}</td>
+        <td><form method="post" action="/admin/can-land/delete" style="display:inline;"><input type="hidden" name="airplaneType" value="{{Airplane_type_name}}"><input type="hidden" name="airportCode" value="{{Airport_code}}"><button type="submit">삭제</button></form></td></tr>{{/each}}</tbody></table>
+        <a href="/admin">관리자 메인</a>
+    </main>
+</body>
+</html>
+

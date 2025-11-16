@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - AIRLINE Reservation System</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>AIRLINE Reservation System</h1>
+        <nav>
+            <a href="/">홈</a>
+            <a href="/admin">관리자</a>
+            <a href="/user">사용자</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h2>관리자 페이지</h2>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem;">
+            <div>
+                <h3>공항 관리</h3>
+                <p>총 {{airports.length}}개 공항</p>
+                <a href="/admin/airport" class="btn">관리하기</a>
+            </div>
+            <div>
+                <h3>항공기 관리</h3>
+                <p>총 {{airplanes.length}}대 항공기</p>
+                <a href="/admin/airplane" class="btn">관리하기</a>
+            </div>
+            <div>
+                <h3>항공편 관리</h3>
+                <p>총 {{flights.length}}개 항공편</p>
+                <a href="/admin/flight" class="btn">관리하기</a>
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <h3>빠른 메뉴</h3>
+            <ul>
+                <li><a href="/admin/airport">공항 관리</a></li>
+                <li><a href="/admin/airplane">항공기 관리</a></li>
+                <li><a href="/admin/flight">항공편 관리</a></li>
+            </ul>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 AIRLINE Reservation System</p>
+    </footer>
+</body>
+</html>
+

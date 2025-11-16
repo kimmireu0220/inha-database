@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>검색 결과</h2>
+        <p>출발지: {{departure}} | 도착지: {{arrival}} | 날짜: {{date}}</p>
+        {{#if flights.length}}
+        <table>
+            <thead><tr><th>항공편</th><th>출발지</th><th>출발시간</th><th>도착지</th><th>도착시간</th><th>사용가능 좌석</th><th>최저가</th><th>예약</th></tr></thead>
+            <tbody>{{#each flights}}<tr><td>{{Flight_number}}</td><td>{{Departure_airport_name}} ({{Departure_airport_code}})</td><td>{{Departure_time}}</td><td>{{Arrival_airport_name}} ({{Arrival_airport_code}})</td><td>{{Arrival_time}}</td><td>{{Number_of_available_seats}}</td><td>{{Min_fare}}원</td><td><a href="/user/reserve/{{Flight_number}}/{{Leg_number}}/{{Date}}" class="btn">예약하기</a></td></tr>{{/each}}</tbody>
+        </table>
+        {{else}}<p>검색 결과가 없습니다.</p>{{/if}}
+        <div style="margin-top: 2rem;"><a href="/user">다시 검색</a></div>
+    </main>
+    <footer><p>&copy; 2025 AIRLINE Reservation System</p></footer>
+</body>
+</html>
+

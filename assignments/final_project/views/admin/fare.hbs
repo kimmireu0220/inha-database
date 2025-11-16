@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>요금 관리</h2>
+        <h3>요금 추가</h3>
+        <form method="post" action="/admin/fare">
+            <div><label>항공편: <select name="Flight_number" required>{{#each flights}}<option value="{{Flight_number}}">{{Flight_number}}</option>{{/each}}</select></label></div>
+            <div><label>요금 코드: <input type="text" name="Fare_code" required></label></div>
+            <div><label>금액: <input type="number" name="Amount" step="0.01" required></label></div>
+            <div><label>제한사항: <input type="text" name="Restrictions"></label></div>
+            <div><button type="submit">추가</button></div>
+        </form>
+        <h3>요금 목록</h3>
+        <table><thead><tr><th>항공편</th><th>요금 코드</th><th>금액</th><th>제한사항</th><th>작업</th></tr></thead>
+        <tbody>{{#each fares}}<tr><td>{{Flight_number}}</td><td>{{Fare_code}}</td><td>{{Amount}}원</td><td>{{Restrictions}}</td>
+        <td><a href="/admin/fare/update/{{Flight_number}}/{{Fare_code}}">수정</a> <form method="post" action="/admin/fare/delete" style="display:inline;"><input type="hidden" name="flightNumber" value="{{Flight_number}}"><input type="hidden" name="fareCode" value="{{Fare_code}}"><button type="submit">삭제</button></form></td></tr>{{/each}}</tbody></table>
+        <a href="/admin">관리자 메인</a>
+    </main>
+</body>
+</html>
+

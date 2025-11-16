@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>항공편 구간 인스턴스 관리</h2>
+        <h3>인스턴스 추가</h3>
+        <form method="post" action="/admin/leg-instance">
+            <div><label>항공편 구간: <select name="Flight_number" id="flightSelect" required>{{#each flightLegs}}<option value="{{Flight_number}}" data-leg="{{Leg_number}}">{{Flight_number}} - 구간 {{Leg_number}}</option>{{/each}}</select></label></div>
+            <div><label>구간 번호: <input type="number" name="Leg_number" id="legNumber" required></label></div>
+            <div><label>날짜: <input type="date" name="Date" required></label></div>
+            <div><label>항공기: <select name="Airplane_id" required>{{#each airplanes}}<option value="{{Airplane_id}}">{{Airplane_id}} ({{Airplane_type}})</option>{{/each}}</select></label></div>
+            <div><label>사용가능 좌석: <input type="number" name="Number_of_available_seats"></label></div>
+            <div><label>출발 공항: <select name="Departure_airport_code" required>{{#each flightLegs}}<option value="{{Departure_airport_code}}" data-flight="{{Flight_number}}" data-leg="{{Leg_number}}">{{Departure_airport_name}}</option>{{/each}}</select></label></div>
+            <div><label>출발 시간: <input type="time" name="Departure_time"></label></div>
+            <div><label>도착 공항: <select name="Arrival_airport_code" required>{{#each flightLegs}}<option value="{{Arrival_airport_code}}">{{Arrival_airport_name}}</option>{{/each}}</select></label></div>
+            <div><label>도착 시간: <input type="time" name="Arrival_time"></label></div>
+            <div><button type="submit">추가</button></div>
+        </form>
+        <h3>인스턴스 목록</h3>
+        <table><thead><tr><th>항공편</th><th>구간</th><th>날짜</th><th>항공기</th><th>사용가능 좌석</th><th>출발지</th><th>도착지</th><th>작업</th></tr></thead>
+        <tbody>{{#each legInstances}}<tr><td>{{Flight_number}}</td><td>{{Leg_number}}</td><td>{{Date}}</td><td>{{Airplane_id}}</td><td>{{Number_of_available_seats}}</td><td>{{Departure_airport_name}}</td><td>{{Arrival_airport_name}}</td>
+        <td><a href="/admin/leg-instance/update/{{Flight_number}}/{{Leg_number}}/{{Date}}">수정</a> <form method="post" action="/admin/leg-instance/delete" style="display:inline;"><input type="hidden" name="flightNumber" value="{{Flight_number}}"><input type="hidden" name="legNumber" value="{{Leg_number}}"><input type="hidden" name="date" value="{{Date}}"><button type="submit">삭제</button></form></td></tr>{{/each}}</tbody></table>
+        <a href="/admin">관리자 메인</a>
+    </main>
+    <script>
+        document.getElementById('flightSelect').addEventListener('change', function() {
+            const selected = this.options[this.selectedIndex];
+            document.getElementById('legNumber').value = selected.dataset.leg;
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header><h1>AIRLINE Reservation System</h1><nav><a href="/">홈</a><a href="/admin">관리자</a><a href="/user">사용자</a></nav></header>
+    <main>
+        <h2>예약 조회</h2>
+        <form method="post" action="/user/reservation">
+            <div><label>전화번호: <input type="text" name="phone" required placeholder="010-1234-5678"></label></div>
+            <div><button type="submit">조회</button></div>
+        </form>
+        <div style="margin-top: 2rem;"><a href="/user">항공편 검색</a></div>
+    </main>
+    <footer><p>&copy; 2025 AIRLINE Reservation System</p></footer>
+</body>
+</html>
+
