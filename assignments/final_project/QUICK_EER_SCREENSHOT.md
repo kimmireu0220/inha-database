@@ -36,3 +36,4 @@ open -a MySQLWorkbench
 # EER Diagram이 표시되면 스크린샷 촬영
 ```
 
+
