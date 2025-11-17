@@ -1,0 +1,64 @@
+Database
+(EEC4408)
+Week 12 practice
+
+Prof. Wonik Choi
+
+Week 12 practice
+ㅇ로그인 구현
+- Cookie
+• 웹 서버가 브라우저에게 보내어 저장했다가 서버의 요청이 있을 때 보내는 문자열
+
+• 브라우저의 정보가 담김 텍스트 파일
+• ID 정보 저장, 최근 검색 정보 추천,장바구니 저장 등
+
+- Session
+• 쿠키가 브라우저에 노출되는 보안문제를 해결하기 위해 사용
+• Client <-> Server 간 통신을 통해 사용자 식별
+
+2
+
+Week 12 practice
+ㅇPackage 설치
+- 서버 재시작시 브라우저 자동 재실행
+• npm install livereload connect-livereload
+
+- Cookie 및 Session package 설치
+• npm install cookie-parser express-session
+
+3
+
+Week 12 practice
+ㅇ인하대학교 수강신청 페이지 shallow copy
+
+4
+
+Week 12 practice
+ㅇ인하대학교 수강신청 페이지 shallow copy
+
+5
+
+Week 12 practice
+
+https://github.com/leesw9501/Database/tree/main/week11
+sql.js
+
+Select.js
+
+6
+
+Week 12 assignment
+ㅇSTEP1: 로그인 했을 경우에 ‘Enrolment’를 클릭하면 수강신청 페이지로 이동
+ㅇSTEP2: Apply 버튼으로 수강신청 할 수 있는 기능 구현
+- 버튼을 눌렀을 경우 DB에 학생이 수강신청한 내용이 반영되도록 업데이트 할 것
+- Remaining participants가 0이면 수강신청 안되야 함
+- Course completion list에 있는 수업은 수강신청 안되야 함
+
+ㅇ보고서
+- 개요/상세구현내용/결과화면/결론
+- 제출할 때 소스코드(node_modules 제외)와 보고서를 압축해서 같이 제출할 것
+
+- 제출마감(25.11.24 00:00:00)
+7
+
+
