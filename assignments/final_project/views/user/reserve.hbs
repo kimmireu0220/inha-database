@@ -12,7 +12,7 @@
         <form method="post" action="/user/reserve">
             <input type="hidden" name="flightNumber" value="{{legInstance.Flight_number}}">
             <input type="hidden" name="legNumber" value="{{legInstance.Leg_number}}">
-            <input type="hidden" name="date" value="{{legInstance.Date}}">
+            <input type="hidden" name="date" value="{{#if legInstance.Date}}{{legInstance.Date}}{{else}}{{date}}{{/if}}">
             <h3>항공편 정보</h3>
             <p>항공편: {{legInstance.Flight_number}} | 구간: {{legInstance.Leg_number}}</p>
             <p>출발: {{legInstance.Departure_airport_name}} ({{legInstance.Departure_airport_code}}) - {{legInstance.Departure_time}}</p>
