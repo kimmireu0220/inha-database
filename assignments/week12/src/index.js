@@ -3,6 +3,7 @@ import logger from "morgan";
 import path from "path";
 import liveReload from 'livereload';
 import connectLiveReload from 'connect-livereload';
+import cookieParser from "cookie-parser";
 
 import loginRouter from "./routes/login";
 import logoutRouter from './routes/logout';
@@ -23,6 +24,7 @@ app.use(connectLiveReload());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
