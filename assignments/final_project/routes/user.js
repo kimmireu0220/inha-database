@@ -53,6 +53,12 @@ router.get('/reserve/:flightNumber/:legNumber/:date', async (req, res) => {
             return res.send(`<script>alert('항공편을 찾을 수 없습니다.'); location.href='/user';</script>`);
         }
 
+        // 날짜를 YYYY-MM-DD 형식으로 변환
+        const formattedDate = legInstance.Date instanceof Date 
+            ? legInstance.Date.toISOString().split('T')[0]
+            : legInstance.Date.toString().split('T')[0];
+        legInstance.Date = formattedDate;
+
         // 사용 가능한 좌석 번호 생성 (간단한 예시: 1A, 1B, ...)
         const totalSeats = legInstance.Number_of_available_seats + reservedSeats.length;
         const availableSeats = [];
@@ -70,6 +76,7 @@ router.get('/reserve/:flightNumber/:legNumber/:date', async (req, res) => {
             legInstance,
             availableSeats,
             fares,
+            date: date, // URL 파라미터의 날짜도 전달
         });
     } catch (error) {
         console.error('Reserve get error:', error);
@@ -81,9 +88,17 @@ router.post('/reserve', async (req, res) => {
     try {
         const { flightNumber, legNumber, date, seatNumber, name, phone, email, passport } = req.body;
         
+        console.log('예약 요청 데이터:', { flightNumber, legNumber, date, seatNumber, name, phone });
+        
+        // 필수 필드 검증
+        if (!flightNumber || !legNumber || !date || !seatNumber || !name || !phone) {
+            throw new Error('필수 필드가 누락되었습니다.');
+        }
+        
         // 고객 정보 확인 또는 생성
         let customer = await selectSql.getCustomerByPhone(phone);
         if (!customer) {
+            console.log('새 고객 생성:', { name, phone });
             const customerId = await insertSql.setCustomer({
                 Name: name,
                 Phone_number: phone,
@@ -91,9 +106,13 @@ router.post('/reserve', async (req, res) => {
                 Passport_number: passport || null,
             });
             customer = await selectSql.getCustomerById(customerId);
+            console.log('고객 생성 완료:', customer);
+        } else {
+            console.log('기존 고객 사용:', customer);
         }
 
         // 좌석 예약 (트랜잭션 포함)
+        console.log('좌석 예약 시작:', { flightNumber, legNumber, date, seatNumber, customerId: customer.Customer_id });
         await insertSql.setSeatReservation({
             Flight_number: flightNumber,
             Leg_number: parseInt(legNumber),
@@ -101,10 +120,12 @@ router.post('/reserve', async (req, res) => {
             Seat_number: seatNumber,
             Customer_id: customer.Customer_id,
         });
+        console.log('좌석 예약 완료');
 
         res.redirect(`/user/reservation/${customer.Customer_id}`);
     } catch (error) {
         console.error('Reserve post error:', error);
+        console.error('Error stack:', error.stack);
         res.send(`<script>alert('예약 실패: ${error.message}'); location.href='/user';</script>`);
     }
 });

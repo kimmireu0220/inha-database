@@ -1,11 +1,14 @@
 import mysql from "mysql2";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const pool = mysql.createPool(
   process.env.JAWSDB_URL ?? {
-    host: 'localhost',
-    user: 'root',
-    database: 'WEEK11_INHA_DB',
-    password: 'c3409711!',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    database: process.env.DB_NAME || 'WEEK11_INHA_DB',
+    password: process.env.DB_PASSWORD || '',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
