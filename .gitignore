@@ -64,3 +64,4 @@ jspm_packages/
 # Temporary files
 *.tmp
 *.temp
+assignments/week12/million_insert_queries.sql

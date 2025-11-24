@@ -1,0 +1,70 @@
+Database
+(ICE4016)
+Week 12
+Index
+
+Prof. Wonik Choi
+
+Index
+ㅇ인덱스는 보조 접근 경로(secondary access path)를 제공하는 디스크상의 별도의
+파일
+ㅇ기본파일 내에 있는 레코드들의 물리적인 위치에 영향을 끼치지 않으면서 인덱스 필
+드를 기반으로 레코드들을 효율적으로 탐색할 수 있는 별도의 탐색 경로를 제공
+ㅇ기본적으로 인덱스 생성을 위해 파일의 임의의 필드를 사용할 수 있음
+ㅇ서로 다른 필드에 대한 여러 인덱스 뿐만 아니라 다중 필드에 대한 인덱스들을 동일
+한 파일에 생성 가능
+ㅇ인덱스 각각은 탐색 속도를 향상시키기 위해 특정 자료구조를 사용함
+- B-Tree, Hash, Bitmap 등
+
+2
+
+Week 12 practice
+million_insert_queries.sql
+
+ㅇIndex
+- 100만개 데이터를 활용하여 index 유무에 따른 검색 시간 비교
+➢ source c:/users/dilab/million_insert_queries.sql;
+
+3
+
+Week 12 practice
+ㅇCREAT INDEX IndexName ON TableName (IndexColumns);
+
+ㅇDROP INDEX IndexName ON TableName;
+
+ㅇSHOW INDEX FROM TableName;
+
+4
+
+Week 12 practice
+Index 적용 후
+
+Index 적용 전
+
+5
+
+Week 12 practice
+ㅇPrimary, Unique key는 자동으로 인덱스 생성됨
+
+ㅇPrimary, Unique key의 자동으로 생성된 인덱스는 삭제 불가
+
+6
+
+Week 12 practice
+ㅇALTER TABLE table_name DROP PRIMARY KEY
+
+ㅇForeign key로 사용 중인 Primary key
+
+7
+
+Week 12 Assignment
+ㅇ아래 내용에 대한 보고서 작성
+- STEP 1 : 10만명 이상의 학생을 INHA_DB에 INSERT하는 쿼리문 작성 (언어 사용 제한 없음)
+- STEP 2 : SHOW INDEX (Cardinality), EXPLAIN (rows, filtered) 조사
+
+- STEP 3 : 10만명 이상의 학생을 INHA_DB에 INSERT 한 뒤 5개 이상의 INDEX 적용 전후 비교 및
+분석
+
+8
+
+
