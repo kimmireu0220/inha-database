@@ -79,3 +79,4 @@ if __name__ == "__main__":
     generate_students(100000, 12000000)
 
 
+

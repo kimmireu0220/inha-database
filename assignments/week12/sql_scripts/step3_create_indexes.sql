@@ -35,3 +35,4 @@ CREATE INDEX idx_studentid_email ON Student(StudentId, Semail) USING BTREE;
 SHOW INDEX FROM Student;
 
 
+

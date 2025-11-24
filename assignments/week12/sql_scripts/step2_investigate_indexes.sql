@@ -43,3 +43,4 @@ EXPLAIN SELECT * FROM Student WHERE StudentId BETWEEN 12000000 AND 12001000;
 SELECT COUNT(*) AS total_students FROM Student;
 
 
+

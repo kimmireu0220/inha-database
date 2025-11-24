@@ -109,3 +109,4 @@ SELECT
     'Semail: 100000+ → 1' AS 개선3,
     'Sphonenum: 100000+ → 1' AS 개선4;
 
+
