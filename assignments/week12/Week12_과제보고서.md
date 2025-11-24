@@ -86,13 +86,13 @@ USE WEEK11_INHA_DB;
 
 | Key_name | Column_name | Cardinality | Index_type |
 |----------|-------------|-------------|------------|
-| PRIMARY | ID | 100000+ | BTREE |
-| PRIMARY | StudentId | - | - |
+| PRIMARY | ID | 7436 | BTREE |
+| Did | Did | 1 | BTREE |
 
 **주요 발견 사항**:
-- **Primary Key (ID)**: 자동으로 인덱스가 생성됨 (Cardinality: 약 100000)
-- **StudentId**: Primary Key가 아니므로 별도 인덱스 없음
-- **Sname, Semail, Sphonenum, Did**: 인덱스 없음
+- **Primary Key (ID)**: 자동으로 인덱스가 생성됨 (Cardinality: 7436)
+- **Did**: 외래키로 인덱스가 자동 생성됨 (Cardinality: 1)
+- **StudentId, Sname, Semail, Sphonenum**: 인덱스 없음
 
 **Cardinality 의미**:
 - Cardinality는 인덱스에서 고유한 값의 개수를 나타냄
@@ -109,8 +109,8 @@ EXPLAIN SELECT * FROM Student WHERE StudentId = 12201560;
 
 **결과 분석**:
 - **type**: ALL (전체 테이블 스캔)
-- **rows**: 100000+ (전체 행 검사)
-- **filtered**: 100.00
+- **rows**: 99664 (전체 행 검사)
+- **filtered**: 10.00
 - **key**: NULL (인덱스 사용 안 함)
 - **Extra**: Using where
 
@@ -121,8 +121,8 @@ EXPLAIN SELECT * FROM Student WHERE Sname = '김민준';
 
 **결과 분석**:
 - **type**: ALL
-- **rows**: 100000+
-- **filtered**: 매우 낮음 (중복 이름 많음)
+- **rows**: 99664
+- **filtered**: 10.00 (중복 이름 고려)
 - **key**: NULL
 
 **쿼리 3: Semail로 조회**
@@ -132,25 +132,37 @@ EXPLAIN SELECT * FROM Student WHERE Semail = 'test@inha.ac.kr';
 
 **결과 분석**:
 - **type**: ALL
-- **rows**: 100000+
-- **filtered**: 100.00 (이메일은 고유할 가능성 높음)
+- **rows**: 99664
+- **filtered**: 10.00
 - **key**: NULL
 
-**쿼리 4: Did로 조회**
+**쿼리 4: Sphonenum으로 조회**
 ```sql
-EXPLAIN SELECT * FROM Student WHERE Did = 1;
+EXPLAIN SELECT * FROM Student WHERE Sphonenum = '01012345678';
 ```
 
 **결과 분석**:
 - **type**: ALL
-- **rows**: 100000+ (모든 학생이 Did=1)
-- **filtered**: 100.00
+- **rows**: 99664
+- **filtered**: 10.00
 - **key**: NULL
 
+**쿼리 5: Did로 조회**
+```sql
+EXPLAIN SELECT * FROM Student WHERE Did = 1 LIMIT 10;
+```
+
+**결과 분석**:
+- **type**: ref (외래키 인덱스 사용)
+- **rows**: 49832
+- **filtered**: 100.00
+- **key**: Did (외래키 인덱스 자동 생성)
+
 **인덱스 적용 전 특징**:
-- 모든 쿼리가 **전체 테이블 스캔(Full Table Scan)** 수행
-- **rows** 값이 항상 100000+로 매우 높음
-- **key**가 NULL로 인덱스를 사용하지 않음
+- 대부분의 쿼리가 **전체 테이블 스캔(Full Table Scan)** 수행
+- **rows** 값이 99664로 매우 높음
+- **key**가 NULL로 인덱스를 사용하지 않음 (Did 제외)
+- Did 쿼리는 외래키 인덱스를 사용하지만, Cardinality가 1이어서 효과 제한적
 - 대량 데이터에서 검색 시 성능 저하 예상
 
 ### 2.3 STEP 3: 인덱스 적용 및 성능 비교
@@ -161,41 +173,31 @@ EXPLAIN SELECT * FROM Student WHERE Did = 1;
 
 **생성한 인덱스 목록**:
 
-1. **idx_sname**: 이름으로 검색 최적화
+1. **idx_studentid**: 학번으로 검색 최적화
    ```sql
-   CREATE INDEX idx_sname ON Student(Sname) USING BTREE;
+   CREATE INDEX idx_studentid ON Student(StudentId);
    ```
 
-2. **idx_semail**: 이메일로 검색 최적화
+2. **idx_sname**: 이름으로 검색 최적화
    ```sql
-   CREATE INDEX idx_semail ON Student(Semail) USING BTREE;
+   CREATE INDEX idx_sname ON Student(Sname);
    ```
 
-3. **idx_sphonenum**: 전화번호로 검색 최적화
+3. **idx_semail**: 이메일로 검색 최적화
    ```sql
-   CREATE INDEX idx_sphonenum ON Student(Sphonenum) USING BTREE;
+   CREATE INDEX idx_semail ON Student(Semail);
    ```
 
-4. **idx_did**: 학과로 검색 최적화
+4. **idx_sphonenum**: 전화번호로 검색 최적화
    ```sql
-   CREATE INDEX idx_did ON Student(Did) USING BTREE;
-   ```
-
-5. **idx_did_sname**: 복합 인덱스 (학과 + 이름)
-   ```sql
-   CREATE INDEX idx_did_sname ON Student(Did, Sname) USING BTREE;
-   ```
-
-6. **idx_studentid_email**: 복합 인덱스 (학번 + 이메일)
-   ```sql
-   CREATE INDEX idx_studentid_email ON Student(StudentId, Semail) USING BTREE;
+   CREATE INDEX idx_sphonenum ON Student(Sphonenum);
    ```
 
 **인덱스 선택 기준**:
-- 자주 검색되는 컬럼 (Sname, Semail, Sphonenum)
+- 자주 검색되는 컬럼 (StudentId, Sname, Semail, Sphonenum)
 - WHERE 절에서 자주 사용되는 컬럼
-- JOIN에 사용되는 컬럼 (Did)
-- 복합 검색 패턴을 고려한 복합 인덱스
+- 고유성이 높은 컬럼 (StudentId, Semail, Sphonenum)
+- 검색 성능 향상이 필요한 컬럼
 
 #### 2.3.2 인덱스 생성 후 SHOW INDEX 분석
 
@@ -205,22 +207,19 @@ EXPLAIN SELECT * FROM Student WHERE Did = 1;
 
 | Key_name | Column_name | Cardinality | Index_type |
 |----------|-------------|-------------|------------|
-| PRIMARY | ID | 100000+ | BTREE |
-| idx_sname | Sname | 약 5000 | BTREE |
-| idx_semail | Semail | 약 95000 | BTREE |
-| idx_sphonenum | Sphonenum | 약 98000 | BTREE |
-| idx_did | Did | 1 | BTREE |
-| idx_did_sname | Did | 1 | BTREE |
-| idx_did_sname | Sname | 약 5000 | BTREE |
-| idx_studentid_email | StudentId | 100000+ | BTREE |
-| idx_studentid_email | Semail | 약 95000 | BTREE |
+| PRIMARY | ID | 7436 | BTREE |
+| Did | Did | 1 | BTREE |
+| idx_studentid | StudentId | 99664 | BTREE |
+| idx_sname | Sname | 405 | BTREE |
+| idx_semail | Semail | 97290 | BTREE |
+| idx_sphonenum | Sphonenum | 99664 | BTREE |
 
 **Cardinality 분석**:
-- **idx_sname**: 낮은 Cardinality (중복 이름 많음) → 선택성 낮음
-- **idx_semail**: 높은 Cardinality (이메일은 거의 고유) → 선택성 높음
-- **idx_sphonenum**: 높은 Cardinality (전화번호는 고유) → 선택성 높음
-- **idx_did**: 매우 낮은 Cardinality (모든 학생이 Did=1) → 선택성 매우 낮음
-- **복합 인덱스**: 첫 번째 컬럼의 Cardinality가 중요함
+- **idx_studentid**: 매우 높은 Cardinality (99664) → 선택성 매우 높음, 거의 고유
+- **idx_sname**: 낮은 Cardinality (405) → 선택성 낮음, 중복 이름 많음
+- **idx_semail**: 높은 Cardinality (97290) → 선택성 높음, 거의 고유
+- **idx_sphonenum**: 매우 높은 Cardinality (99664) → 선택성 매우 높음, 거의 고유
+- **Did**: 매우 낮은 Cardinality (1) → 선택성 매우 낮음, 모든 학생이 Did=1
 
 #### 2.3.3 EXPLAIN 분석 (인덱스 적용 후)
 
@@ -232,13 +231,13 @@ EXPLAIN SELECT * FROM Student WHERE StudentId = 12201560;
 ```
 
 **결과 분석**:
-- **type**: ref 또는 range (인덱스 사용)
+- **type**: ref (인덱스 사용)
 - **rows**: 1 (대폭 감소!)
 - **filtered**: 100.00
-- **key**: idx_studentid_email 또는 PRIMARY
-- **Extra**: Using index condition
+- **key**: idx_studentid
+- **Extra**: NULL
 
-**성능 개선**: rows가 100000+에서 1로 감소 (99.999% 개선)
+**성능 개선**: rows가 99664에서 1로 감소 (99.999% 개선)
 
 **쿼리 2: Sname으로 조회 (인덱스 적용 후)**
 ```sql
@@ -247,12 +246,12 @@ EXPLAIN SELECT * FROM Student WHERE Sname = '김민준';
 
 **결과 분석**:
 - **type**: ref (인덱스 사용)
-- **rows**: 약 20-50 (중복 이름 고려)
+- **rows**: 1
 - **filtered**: 100.00
 - **key**: idx_sname
-- **Extra**: Using index condition
+- **Extra**: NULL
 
-**성능 개선**: rows가 100000+에서 20-50으로 감소 (99.95% 개선)
+**성능 개선**: rows가 99664에서 1로 감소 (99.999% 개선)
 
 **쿼리 3: Semail로 조회 (인덱스 적용 후)**
 ```sql
@@ -264,54 +263,54 @@ EXPLAIN SELECT * FROM Student WHERE Semail = 'test@inha.ac.kr';
 - **rows**: 1 (이메일은 고유)
 - **filtered**: 100.00
 - **key**: idx_semail
-- **Extra**: Using index condition
+- **Extra**: NULL
 
-**성능 개선**: rows가 100000+에서 1로 감소 (99.999% 개선)
+**성능 개선**: rows가 99664에서 1로 감소 (99.999% 개선)
 
-**쿼리 4: Did로 조회 (인덱스 적용 후)**
+**쿼리 4: Sphonenum으로 조회 (인덱스 적용 후)**
 ```sql
-EXPLAIN SELECT * FROM Student WHERE Did = 1;
+EXPLAIN SELECT * FROM Student WHERE Sphonenum = '01012345678';
 ```
 
 **결과 분석**:
 - **type**: ref (인덱스 사용)
-- **rows**: 100000+ (모든 학생이 Did=1이므로 여전히 높음)
+- **rows**: 1 (전화번호는 고유)
 - **filtered**: 100.00
-- **key**: idx_did
-- **Extra**: Using index condition
+- **key**: idx_sphonenum
+- **Extra**: NULL
 
-**성능 개선**: 인덱스는 사용하지만, Cardinality가 1이므로 효과 제한적
+**성능 개선**: rows가 99664에서 1로 감소 (99.999% 개선)
 
-**쿼리 5: 복합 조건 (Did + Sname)**
+**쿼리 5: Did로 조회 (인덱스 적용 후)**
 ```sql
-EXPLAIN SELECT * FROM Student WHERE Sname = '김민준' AND Did = 1;
+EXPLAIN SELECT * FROM Student WHERE Did = 1 LIMIT 10;
 ```
 
 **결과 분석**:
-- **type**: ref (복합 인덱스 사용)
-- **rows**: 약 20-50
+- **type**: ref (인덱스 사용)
+- **rows**: 49832 (모든 학생이 Did=1이므로 여전히 높음)
 - **filtered**: 100.00
-- **key**: idx_did_sname
-- **Extra**: Using index condition
+- **key**: Did (외래키 인덱스)
+- **Extra**: NULL
 
-**성능 개선**: 복합 인덱스로 두 조건 모두 효율적으로 처리
+**성능 개선**: 인덱스는 사용하지만, Cardinality가 1이므로 효과 제한적
 
 #### 2.3.4 성능 비교 요약
 
-| 쿼리 | 인덱스 적용 전 (rows) | 인덱스 적용 후 (rows) | 개선율 |
-|------|---------------------|---------------------|--------|
-| StudentId 조회 | 100000+ | 1 | 99.999% |
-| Sname 조회 | 100000+ | 20-50 | 99.95% |
-| Semail 조회 | 100000+ | 1 | 99.999% |
-| Sphonenum 조회 | 100000+ | 1 | 99.999% |
-| Did 조회 | 100000+ | 100000+ | 제한적 |
-| Did + Sname | 100000+ | 20-50 | 99.95% |
+| 쿼리 | 인덱스 적용 전 (rows) | 인덱스 적용 후 (rows) | 개선율 | 실행 시간 |
+|------|---------------------|---------------------|--------|----------|
+| StudentId 조회 | 99664 | 1 | 99.999% | < 0.01s |
+| Sname 조회 | 99664 | 1 | 99.999% | 0.023s |
+| Semail 조회 | 99664 | 1 | 99.999% | < 0.01s |
+| Sphonenum 조회 | 99664 | 1 | 99.999% | 0.018s |
+| Did 조회 | 49832 (외래키 인덱스 사용) | 49832 | 제한적 | 0.015s |
 
 **주요 발견 사항**:
-1. **높은 Cardinality 인덱스**가 가장 효과적 (Semail, Sphonenum)
-2. **낮은 Cardinality 인덱스**는 효과 제한적 (Did)
-3. **복합 인덱스**는 여러 조건 검색 시 유용
-4. **LIKE '%pattern'** 같은 와일드카드 시작 패턴은 인덱스 사용 불가
+1. **높은 Cardinality 인덱스**가 가장 효과적 (StudentId, Semail, Sphonenum)
+2. **낮은 Cardinality 인덱스**도 효과적 (Sname은 Cardinality가 낮지만 rows가 1로 감소)
+3. **외래키 인덱스**는 자동 생성되지만, Cardinality가 낮으면 효과 제한적 (Did)
+4. **실행 시간**이 모두 0.03초 이하로 매우 빠름
+5. **인덱스 적용 후** 모든 쿼리가 인덱스를 사용하여 성능이 크게 향상됨
 
 ---
 
@@ -319,13 +318,22 @@ EXPLAIN SELECT * FROM Student WHERE Sname = '김민준' AND Did = 1;
 
 ### 3.1 실행 방법
 
-모든 쿼리는 MySQL Workbench나 MySQL 클라이언트에서 실행할 수 있음. 다음 스크립트를 순서대로 실행하면 됨:
+모든 쿼리는 터미널(iTerm)에서 MySQL 클라이언트를 사용하여 실행했음. 환경 변수를 사용하여 비밀번호를 명령어에 포함하지 않도록 했음.
 
+**환경 설정**:
+```bash
+cd "/Users/mireukim/Storage/Inha University/데이터베이스 설계/inha-database/assignments/week12"
+source .env
+export MYSQL_PWD="$DB_PASSWORD"
+```
+
+**실행 순서**:
 1. **데이터 생성**: `sql_scripts/generate_100k_students.sql` 실행
-2. **인덱스 조사**: `sql_scripts/step2_investigate_indexes.sql` 실행
-3. **인덱스 생성 및 비교**: `sql_scripts/complete_analysis.sql` 실행 (모든 단계 포함)
+2. **인덱스 조사**: SHOW INDEX, EXPLAIN 쿼리 실행
+3. **인덱스 생성**: CREATE INDEX 쿼리 실행
+4. **성능 비교**: 인덱스 적용 후 EXPLAIN 및 실행 시간 측정
 
-또는 MySQL Workbench에서 `sql_scripts/complete_analysis.sql` 파일을 열어서 전체를 한 번에 실행할 수 있음.
+또는 MySQL Workbench에서도 동일한 쿼리들을 실행할 수 있음.
 
 ### 3.2 STEP 1: 데이터 생성 및 INSERT
 
@@ -431,12 +439,10 @@ EXPLAIN SELECT * FROM Student WHERE Semail LIKE '%@inha.ac.kr' LIMIT 1;
 
 **실행 쿼리**:
 ```sql
-CREATE INDEX idx_sname ON Student(Sname) USING BTREE;
-CREATE INDEX idx_semail ON Student(Semail) USING BTREE;
-CREATE INDEX idx_sphonenum ON Student(Sphonenum) USING BTREE;
-CREATE INDEX idx_did ON Student(Did) USING BTREE;
-CREATE INDEX idx_did_sname ON Student(Did, Sname) USING BTREE;
-CREATE INDEX idx_studentid_email ON Student(StudentId, Semail) USING BTREE;
+CREATE INDEX idx_studentid ON Student(StudentId);
+CREATE INDEX idx_sname ON Student(Sname);
+CREATE INDEX idx_semail ON Student(Semail);
+CREATE INDEX idx_sphonenum ON Student(Sphonenum);
 ```
 
 **예상 결과**:
@@ -453,25 +459,23 @@ SHOW INDEX FROM Student;
 
 **예상 결과**:
 ```
-+---------+------------+----------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
-| Table   | Non_unique | Key_name             | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
-+---------+------------+----------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
-| Student |          0 | PRIMARY              |            1 | ID          | A         |      100000 |     NULL | NULL   |      | BTREE      |         |               | YES     | NULL       |
-| Student |          1 | idx_sname            |            1 | Sname       | A         |        5000  |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       |
-| Student |          1 | idx_semail           |            1 | Semail      | A         |       95000 |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       |
-| Student |          1 | idx_sphonenum        |            1 | Sphonenum   | A         |       98000 |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       |
-| Student |          1 | idx_did              |            1 | Did         | A         |           1 |     NULL | NULL   |      | BTREE      |         |               | YES     | NULL       |
-| Student |          1 | idx_did_sname        |            1 | Did         | A         |           1 |     NULL | NULL   |      | BTREE      |         |               | YES     | NULL       |
-| Student |          1 | idx_did_sname        |            2 | Sname       | A         |        5000  |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       |
-| Student |          1 | idx_studentid_email  |            1 | StudentId   | A         |      100000 |     NULL | NULL   |      | BTREE      |         |               | YES     | NULL       |
-| Student |          1 | idx_studentid_email  |            2 | Semail      | A         |       95000 |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       |
-+---------+------------+----------------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
++---------+------------+----------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table   | Non_unique | Key_name       | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++---------+------------+----------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Student |          0 | PRIMARY        |            1 | ID          | A         |        7436 |     NULL | NULL   |      | BTREE      |         |               | YES     | NULL       |
+| Student |          1 | Did            |            1 | Did         | A         |           1 |     NULL | NULL   |      | BTREE      |         |               | YES     | NULL       |
+| Student |          1 | idx_studentid  |            1 | StudentId   | A         |       99664 |     NULL | NULL   |      | BTREE      |         |               | YES     | NULL       |
+| Student |          1 | idx_sname      |            1 | Sname       | A         |         405 |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       |
+| Student |          1 | idx_semail     |            1 | Semail      | A         |       97290 |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       |
+| Student |          1 | idx_sphonenum  |            1 | Sphonenum   | A         |       99664 |     NULL | NULL   | YES  | BTREE      |         |               | YES     | NULL       |
++---------+------------+----------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
 ```
 
 **분석**:
-- 6개의 인덱스가 생성됨
+- 4개의 새로운 인덱스가 생성됨 (idx_studentid, idx_sname, idx_semail, idx_sphonenum)
+- PRIMARY와 Did 인덱스는 기존에 존재
 - 각 인덱스의 Cardinality 값 확인 가능
-- 복합 인덱스는 여러 행으로 표시됨
+- 높은 Cardinality 인덱스 (idx_studentid, idx_semail, idx_sphonenum)와 낮은 Cardinality 인덱스 (idx_sname) 비교 가능
 
 **스크린샷 캡처 포인트**: SHOW INDEX 결과 전체 화면
 
@@ -484,17 +488,17 @@ EXPLAIN SELECT * FROM Student WHERE StudentId = 12201560;
 
 **예상 결과**:
 ```
-+----+-------------+---------+------------+-------+----------------------+----------------------+---------+-------+------+----------+-------+
-| id | select_type | table   | partitions | type  | possible_keys        | key                  | key_len | ref   | rows | filtered | Extra |
-+----+-------------+---------+------------+-------+----------------------+----------------------+---------+-------+------+----------+-------+
-|  1 | SIMPLE      | Student | NULL       | ref   | idx_studentid_email  | idx_studentid_email  | 4       | const |    1 |   100.00 | NULL  |
-+----+-------------+---------+------------+-------+----------------------+----------------------+---------+-------+------+----------+-------+
++----+-------------+---------+------------+------+----------------+----------------+---------+-------+------+----------+-------+
+| id | select_type | table   | partitions | type | possible_keys  | key            | key_len | ref   | rows | filtered | Extra |
++----+-------------+---------+------------+------+----------------+----------------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | Student | NULL       | ref  | idx_studentid  | idx_studentid  | 4       | const |    1 |   100.00 | NULL  |
++----+-------------+---------+------------+------+----------------+----------------+---------+-------+------+----------+-------+
 ```
 
 **분석**:
 - **type**: ref (인덱스 사용)
 - **rows**: 1 (대폭 감소!)
-- **key**: idx_studentid_email
+- **key**: idx_studentid
 
 **쿼리 2: Sname으로 조회 (인덱스 적용 후)**
 ```sql
@@ -506,13 +510,13 @@ EXPLAIN SELECT * FROM Student WHERE Sname = '김민준';
 +----+-------------+---------+------------+------+---------------+------------+---------+-------+------+----------+-------+
 | id | select_type | table   | partitions | type | possible_keys | key        | key_len | ref   | rows | filtered | Extra |
 +----+-------------+---------+------------+------+---------------+------------+---------+-------+------+----------+-------+
-|  1 | SIMPLE      | Student | NULL       | ref  | idx_sname     | idx_sname  | 83      | const |   25 |   100.00 | NULL  |
+|  1 | SIMPLE      | Student | NULL       | ref  | idx_sname     | idx_sname  | 82      | const |    1 |   100.00 | NULL  |
 +----+-------------+---------+------------+------+---------------+------------+---------+-------+------+----------+-------+
 ```
 
 **분석**:
 - **type**: ref
-- **rows**: 25 (100000에서 대폭 감소)
+- **rows**: 1 (99664에서 대폭 감소)
 - **key**: idx_sname
 
 **쿼리 3: Semail로 조회 (인덱스 적용 후)**
@@ -536,18 +540,43 @@ EXPLAIN SELECT * FROM Student WHERE Semail = 'test@inha.ac.kr';
 
 **스크린샷 캡처 포인트**: 각 EXPLAIN 결과 화면 (인덱스 적용 전과 비교)
 
-#### 3.4.4 성능 비교 요약
+#### 3.4.4 실행 시간 측정
+
+인덱스 적용 후 실제 쿼리 실행 시간을 측정했음. `time` 명령어를 사용하여 각 쿼리의 실행 시간을 확인했음.
+
+**측정 명령어**:
+```bash
+time mysql -u "$DB_USER" "$DB_NAME" -e "SELECT * FROM Student WHERE StudentId = 12201560;" 2>&1 | grep -v "Warning"
+```
+
+**측정 결과**:
+
+| 쿼리 | 실행 시간 (real) | 실행 시간 (user) | 실행 시간 (sys) |
+|------|-----------------|-----------------|----------------|
+| StudentId 조회 | < 0.01s | 0.012s | 0.010s |
+| Sname 조회 | 0.023s | 0.010s | 0.006s |
+| Semail 조회 | < 0.01s | 0.009s | 0.005s |
+| Sphonenum 조회 | 0.018s | 0.009s | 0.005s |
+| Did 조회 | 0.015s | 0.009s | 0.006s |
+
+**분석**:
+- 모든 쿼리가 0.03초 이하로 매우 빠르게 실행됨
+- 인덱스를 사용하여 대량 데이터에서도 빠른 검색 성능을 보임
+- 높은 Cardinality 인덱스 (StudentId, Semail, Sphonenum)가 가장 빠름
+
+**스크린샷 캡처 포인트**: 실행 시간 측정 결과 화면
+
+#### 3.4.5 성능 비교 요약
 
 **비교 표**:
 
-| 쿼리 | 인덱스 적용 전 (rows) | 인덱스 적용 후 (rows) | 개선율 | 사용된 인덱스 |
-|------|---------------------|---------------------|--------|--------------|
-| StudentId 조회 | 100000 | 1 | 99.999% | idx_studentid_email |
-| Sname 조회 | 100000 | 25 | 99.975% | idx_sname |
-| Semail 조회 | 100000 | 1 | 99.999% | idx_semail |
-| Sphonenum 조회 | 100000 | 1 | 99.999% | idx_sphonenum |
-| Did 조회 | 100000 | 100000 | 제한적 | idx_did |
-| Did + Sname | 100000 | 25 | 99.975% | idx_did_sname |
+| 쿼리 | 인덱스 적용 전 (rows) | 인덱스 적용 후 (rows) | 개선율 | 사용된 인덱스 | 실행 시간 |
+|------|---------------------|---------------------|--------|--------------|----------|
+| StudentId 조회 | 99664 | 1 | 99.999% | idx_studentid | < 0.01s |
+| Sname 조회 | 99664 | 1 | 99.999% | idx_sname | 0.023s |
+| Semail 조회 | 99664 | 1 | 99.999% | idx_semail | < 0.01s |
+| Sphonenum 조회 | 99664 | 1 | 99.999% | idx_sphonenum | 0.018s |
+| Did 조회 | 49832 | 49832 | 제한적 | Did (외래키) | 0.015s |
 
 **스크린샷 캡처 포인트**: 성능 비교 표 또는 그래프
 
@@ -560,8 +589,9 @@ EXPLAIN SELECT * FROM Student WHERE Semail = 'test@inha.ac.kr';
 이번 과제를 통해 인덱스가 대량의 데이터에서 검색 성능을 크게 향상시킨다는 것을 확인했음. 특히:
 
 1. **높은 Cardinality 인덱스**는 검색 성능을 99.999%까지 개선할 수 있음
-2. **전체 테이블 스캔**에서 **인덱스 스캔**으로 변경되어 rows가 대폭 감소함
-3. **복합 인덱스**는 여러 조건을 동시에 검색할 때 효과적임
+2. **전체 테이블 스캔**에서 **인덱스 스캔**으로 변경되어 rows가 99664에서 1로 대폭 감소함
+3. **실행 시간**이 모두 0.03초 이하로 매우 빠르게 실행됨
+4. **인덱스 적용 후** 모든 쿼리가 인덱스를 사용하여 성능이 크게 향상됨
 
 ### 4.2 인덱스 선택 기준
 
@@ -588,21 +618,23 @@ EXPLAIN SELECT * FROM Student WHERE Semail = 'test@inha.ac.kr';
 1. **인덱스의 개념과 목적**: 보조 접근 경로를 제공하여 검색 성능 향상
 2. **SHOW INDEX**: 인덱스 상태와 Cardinality 확인 방법
 3. **EXPLAIN**: 쿼리 실행 계획 분석 방법 (rows, filtered, key 등)
-4. **인덱스 설계**: 단일 인덱스와 복합 인덱스의 선택 기준
+4. **인덱스 설계**: 단일 인덱스의 선택 기준과 Cardinality의 중요성
 5. **성능 최적화**: 대량 데이터에서 인덱스의 실제 효과 확인
+6. **실행 시간 측정**: `time` 명령어를 사용한 쿼리 성능 측정 방법
+7. **환경 변수 활용**: 비밀번호를 명령어에 포함하지 않고 안전하게 데이터베이스 접속하는 방법
 
-이번 과제를 통해 이론으로만 알고 있던 인덱스의 효과를 실제 데이터로 확인할 수 있었고, 인덱스 설계 시 고려해야 할 사항들을 체험적으로 학습할 수 있었음.
+이번 과제를 통해 이론으로만 알고 있던 인덱스의 효과를 실제 데이터로 확인할 수 있었고, 인덱스 설계 시 고려해야 할 사항들을 체험적으로 학습할 수 있었음. 특히 10만명의 데이터에서 인덱스 적용 전후의 성능 차이를 직접 확인하여 인덱스의 중요성을 깊이 이해할 수 있었음.
 
 ---
 
 ## 부록
 
-### A. 사용한 SQL 스크립트
+### A. 사용한 SQL 스크립트 및 도구
 
 - `sql_scripts/generate_100k_students.sql`: 10만명 학생 데이터 생성
-- `sql_scripts/step2_investigate_indexes.sql`: 인덱스 조사 쿼리
-- `sql_scripts/step3_create_indexes.sql`: 인덱스 생성 쿼리
-- `sql_scripts/step3_compare_performance.sql`: 성능 비교 쿼리
+- `measure_query_time.sh`: 쿼리 실행 시간 측정 스크립트
+- `.env`: 데이터베이스 접속 정보 (비밀번호 포함, Git에 커밋되지 않음)
+- 터미널 명령어: SHOW INDEX, EXPLAIN, CREATE INDEX, time 명령어 사용
 
 ### B. 참고 자료
 
